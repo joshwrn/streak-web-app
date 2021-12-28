@@ -1,26 +1,28 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+
+import TasksBar from './components/Tasks/TasksBar';
+import Scene from './components/pet/Scene';
+
+import GlobalStyles from './styles/GlobalStyles';
+import theme from './styles/theme';
+import { ThemeProvider } from 'styled-components';
+import styled from 'styled-components';
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.tsx</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <StyledApp>
+        <TasksBar />
+        <Scene />
+      </StyledApp>
+    </ThemeProvider>
   );
 }
+
+const StyledApp = styled.div`
+  background: ${({ theme }) => theme.main.gradient};
+  display: flex;
+`;
 
 export default App;

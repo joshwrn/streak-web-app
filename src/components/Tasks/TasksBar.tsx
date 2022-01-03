@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 
 import FilterMenu from './FilterMenu';
+import CreateNewBar from './CreateTask';
 
 import { IoCreateOutline } from 'react-icons/io5';
 
@@ -9,120 +10,96 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 import { TaskProps } from './types';
 
-const exampleTasks: TaskProps[] = [
-  {
-    task: 'Go to the gym',
-    completed: true,
-    importance: 'LOW',
-    streak: 1,
-  },
-  {
-    task: 'read a book',
-    completed: false,
-    importance: 'HIGH',
-    streak: 5,
-  },
-  {
-    task: 'walk the dog',
-    completed: false,
-    importance: 'MEDIUM',
-    streak: 0,
-  },
-];
+import { exampleTasks } from './exampleTasks';
 
-const CreateNewBar = ({
-  setIsOpen,
-  isOpen,
-  setTasks,
-}: {
-  setIsOpen: (arg: boolean) => void;
-  isOpen: boolean;
-  // takes in a function technically because i'm accesssing prev state
-  setTasks: (arg: (prev: TaskProps[]) => TaskProps[]) => void;
-}) => {
-  const [input, setInput] = useState<string>('');
-  const handleCreateNew = () => {
-    setTasks((prev: TaskProps[]) => {
-      return [
-        ...prev,
-        {
-          task: input,
-          completed: false,
-          importance: 'LOW',
-          streak: 0,
-        },
-      ];
-    });
-    setIsOpen(false);
-  };
-  return (
-    <AnimatePresence>
-      {isOpen && (
-        <TasksContainer
-          key="createNewTaskContainer"
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-        >
-          <Header>Create New Streak</Header>
-          <StyledInput
-            type="text"
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-          />
-          <CreateTaskButton onClick={handleCreateNew}>Create</CreateTaskButton>
-        </TasksContainer>
-      )}
-    </AnimatePresence>
-  );
-};
-
-const TasksBar = () => {
+const TasksBar = ({ setActive }: { setActive: (arg: number) => void }) => {
   const [tasks, setTasks] = useState<TaskProps[]>(exampleTasks);
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
+  useEffect(() => {
+    const activeTotal = tasks.filter(
+      (task: TaskProps) => task.completed === false
+    ).length;
+    setActive(activeTotal);
+  }, [tasks]);
+
   return (
-    <Sidebar>
-      <HeaderContainer>
-        <Header>
-          Tasks
+    <SidebarContainer>
+      <Sidebar
+        key="TaskContainer"
+        initial={{ opacity: 0, x: -100 }}
+        animate={{ opacity: 1, x: 0 }}
+        exit={{ opacity: 0, x: -500 }}
+      >
+        <HeaderContainer>
           <FilterMenu setTasks={setTasks} exampleTasks={exampleTasks} />
-        </Header>
-        <CreateButton
-          onClick={() => setIsOpen(!isOpen)}
-          as={IoCreateOutline}
-          size={27}
-        />
-      </HeaderContainer>
-      <AnimatePresence>
-        {isOpen ? (
-          <CreateNewBar
-            setIsOpen={setIsOpen}
-            isOpen={isOpen}
-            setTasks={setTasks}
+          <CreateButton
+            onClick={() => setIsOpen(!isOpen)}
+            as={IoCreateOutline}
+            size={27}
           />
-        ) : (
-          <TasksContainer
-            variants={containerVariants}
-            initial={'closed'}
-            animate={'open'}
-            exit={'closed'}
-          >
-            {tasks.map((item: TaskProps, index) => {
-              return (
-                <Task
-                  key={index}
-                  task={item.task}
-                  completed={item.completed}
-                  importance={item.importance}
-                  streak={item.streak}
-                />
-              );
-            })}
-          </TasksContainer>
-        )}
-      </AnimatePresence>
-    </Sidebar>
+        </HeaderContainer>
+        <AnimatePresence>
+          {isOpen ? (
+            <CreateNewBar
+              setIsOpen={setIsOpen}
+              isOpen={isOpen}
+              setTasks={setTasks}
+            />
+          ) : (
+            <TasksContainer
+              variants={containerVariants}
+              initial={'closed'}
+              animate={'open'}
+              exit={'closed'}
+            >
+              {tasks.map((item: TaskProps, index) => {
+                return (
+                  <Task
+                    key={index}
+                    task={item.task}
+                    completed={item.completed}
+                    streak={item.streak}
+                    setTasks={setTasks}
+                  />
+                );
+              })}
+            </TasksContainer>
+          )}
+        </AnimatePresence>
+      </Sidebar>
+    </SidebarContainer>
+  );
+};
+
+interface TaskComponentProps extends TaskProps {
+  setTasks: (arg: (prev: TaskProps[]) => TaskProps[]) => void;
+}
+
+const Task = ({ task, completed, streak, setTasks }: TaskComponentProps) => {
+  const handleComplete = () => {
+    setTasks((prev: TaskProps[]) => {
+      return prev.map((item: TaskProps) => {
+        if (item.task === task) {
+          return {
+            ...item,
+            completed: !item.completed,
+            streak: item.completed ? item.streak - 1 : item.streak + 1,
+          };
+        }
+        return item;
+      });
+    });
+  };
+
+  return (
+    <StyledTask variants={variants}>
+      <Number onClick={handleComplete} completed={completed}>
+        {streak}
+      </Number>
+      <TaskText completed={completed}>{task}</TaskText>
+      <TaskBackground completed={completed} />
+    </StyledTask>
   );
 };
 
@@ -130,36 +107,6 @@ const CreateButton = styled.button`
   color: ${({ theme }) => theme.main.primaryText};
   cursor: pointer;
 `;
-
-const StyledInput = styled.input`
-  width: 100%;
-  height: 50px;
-  color: ${({ theme }) => theme.main.primaryText};
-`;
-
-const CreateTaskButton = styled.button`
-  align-self: flex-start;
-  width: 100%;
-  height: 30px;
-  cursor: pointer;
-  background-color: ${({ theme }) => theme.main.background};
-  border: 1px solid ${({ theme }) => theme.main.border};
-  font-size: 1.6rem;
-  border-radius: 0.5rem;
-  color: ${({ theme }) => theme.main.primaryText};
-  &:hover {
-    background-color: ${({ theme }) => theme.main.hover};
-  }
-`;
-
-const Task = ({ task, completed, importance, streak }: TaskProps) => {
-  return (
-    <StyledTask variants={variants} importance={importance}>
-      <Number completed={completed}>{streak}</Number>
-      {task}
-    </StyledTask>
-  );
-};
 
 const variants = {
   open: {
@@ -180,23 +127,34 @@ const variants = {
 
 const containerVariants = {
   open: {
-    transition: { staggerChildren: 0.57, delayChildren: 0.1 },
+    transition: { staggerChildren: 0.17 },
   },
   closed: {
     transition: { staggerChildren: 0.05, staggerDirection: -1 },
   },
 };
 
-const Sidebar = styled.div`
+const SidebarContainer = styled.div`
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1;
+  width: 450px;
+  height: 100vh;
+`;
+
+const Sidebar = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
 
   background-color: ${({ theme }) => theme.main.background};
-  border-right: 1px solid ${({ theme }) => theme.main.border};
+  border: 1px solid ${({ theme }) => theme.main.border};
+  border-radius: 0.5rem;
 
-  width: 500px;
-  height: 100vh;
+  width: 400px;
+  height: 95vh;
   padding: 2rem;
   gap: 2rem;
 `;
@@ -209,16 +167,6 @@ const HeaderContainer = styled.div`
   padding: 0 1rem;
 `;
 
-const Header = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  color: ${({ theme }) => theme.main.primaryText};
-  align-self: flex-start;
-  font-size: 2.5rem;
-  font-weight: bold;
-`;
-
 const TasksContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
@@ -226,9 +174,14 @@ const TasksContainer = styled(motion.div)`
   justify-content: flex-start;
   gap: 2rem;
   width: 100%;
+  height: 100%;
+  overflow-y: scroll;
 `;
 
 const Number = styled.div<{ completed: TaskProps['completed'] }>`
+  position: relative;
+  z-index: 1;
+
   display: flex;
   justify-content: center;
   justify-items: center;
@@ -238,7 +191,8 @@ const Number = styled.div<{ completed: TaskProps['completed'] }>`
   font-size: 2rem;
   font-weight: bold;
 
-  background-color: ${({ theme }) => theme.main.hover};
+  background-color: ${({ theme, completed }) =>
+    completed ? theme.main.hover : theme.main.background};
   color: ${({ theme, completed }) =>
     completed ? theme.main.primaryText : theme.main.secondaryText};
 
@@ -249,30 +203,58 @@ const Number = styled.div<{ completed: TaskProps['completed'] }>`
   transition: background-color 0.2s ease-in-out;
 `;
 
-const StyledTask = styled(motion.div)<{ importance: TaskProps['importance'] }>`
+const TaskText = styled.div<{ completed: TaskProps['completed'] }>`
+  position: relative;
+  z-index: 1;
+
+  font-size: 1.7rem;
+  text-decoration: ${({ completed }) => (completed ? 'line-through' : 'none')};
+
+  color: ${({ theme, completed }) =>
+    completed ? theme.main.secondaryText : theme.main.primaryText};
+`;
+
+const StyledTask = styled(motion.div)`
+  position: relative;
   display: grid;
   grid-template-columns: 50px 1fr;
   justify-items: center;
   align-content: center;
   align-items: center;
+  overflow: hidden;
 
   border: 1px solid ${({ theme }) => theme.main.border};
   color: ${({ theme }) => theme.main.primaryText};
 
   width: 100%;
-  height: 10rem;
+  height: 8rem;
   border-radius: 0.8rem;
   padding: 2rem;
 
   cursor: pointer;
 
   transition: background-color 0.2s ease-in-out;
-  &:hover {
+
+  /* &:hover {
     background-color: ${({ theme }) => theme.main.hover};
-  }
-  &:hover ${Number} {
+  } */
+  /* &:hover ${Number} {
     background-color: ${({ theme }) => theme.main.background};
-  }
+  } */
+`;
+
+const TaskBackground = styled.div<{ completed: TaskProps['completed'] }>`
+  position: absolute;
+  z-index: 0;
+  display: block;
+  width: 100%;
+  height: 100%;
+  background-color: ${({ theme }) => theme.main.hover};
+  border-radius: ${({ completed }) => (!completed ? '0' : '50%')};
+  transform: ${({ completed }) =>
+    !completed ? 'translateY(0)' : 'translateY(100px)'};
+
+  transition: transform 0.9s ease-in-out, border-radius 0.5s ease-in-out;
 `;
 
 export default TasksBar;

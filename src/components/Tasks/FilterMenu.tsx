@@ -2,12 +2,10 @@ import { useState, useEffect } from 'react';
 
 import { TaskProps } from './types';
 
-import { MdOutlineSort } from 'react-icons/md';
-
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
-type FilterTypes = 'all' | 'incomplete' | 'completed';
+type FilterTypes = 'All' | 'Active' | 'Completed';
 
 const FilterMenu = ({
   setTasks,
@@ -16,17 +14,17 @@ const FilterMenu = ({
   setTasks: (arg: TaskProps[]) => void;
   exampleTasks: TaskProps[];
 }) => {
-  const [filter, setFilter] = useState<FilterTypes>('all');
+  const [filter, setFilter] = useState<FilterTypes>('All');
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   useEffect(() => {
-    if (filter === 'all') {
+    if (filter === 'All') {
       setTasks(exampleTasks);
-    } else if (filter === 'completed') {
+    } else if (filter === 'Completed') {
       setTasks(
         exampleTasks.filter((task: TaskProps) => task.completed === true)
       );
-    } else if (filter === 'incomplete') {
+    } else if (filter === 'Active') {
       setTasks(
         exampleTasks.filter((task: TaskProps) => task.completed === false)
       );
@@ -40,11 +38,11 @@ const FilterMenu = ({
 
   return (
     <AnimatePresence>
-      <Arrow
+      <HeaderContainer
         onClick={() => setIsOpen((open: boolean) => (open ? false : true))}
-        as={MdOutlineSort}
-        size={30}
-      />
+      >
+        Sort: {filter}
+      </HeaderContainer>
       {isOpen && (
         <DropdownContainer
           key="dropdownContainer"
@@ -52,13 +50,13 @@ const FilterMenu = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <DropdownItem onMouseDown={() => handleFilter('all')}>
+          <DropdownItem onMouseDown={() => handleFilter('All')}>
             All
           </DropdownItem>
-          <DropdownItem onMouseDown={() => handleFilter('incomplete')}>
-            Incomplete
+          <DropdownItem onMouseDown={() => handleFilter('Active')}>
+            Active
           </DropdownItem>
-          <DropdownItem onMouseDown={() => handleFilter('completed')}>
+          <DropdownItem onMouseDown={() => handleFilter('Completed')}>
             Completed
           </DropdownItem>
         </DropdownContainer>
@@ -67,9 +65,14 @@ const FilterMenu = ({
   );
 };
 
-const Arrow = styled.div`
+const HeaderContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
   color: ${({ theme }) => theme.main.primaryText};
   cursor: pointer;
+  font-weight: bold;
+  font-size: 1.9rem;
 `;
 
 const DropdownContainer = styled(motion.div)`

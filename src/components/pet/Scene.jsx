@@ -12,7 +12,7 @@ const PetScene = () => {
     <ShapesContainer>
       <Suspense fallback={null}>
         <Canvas
-          camera={{ position: [0, 0, 100] }}
+          camera={{ position: [0, 0, 60] }}
           dpr={2}
           resize={{ scroll: false, offsetSize: true }}
         >
@@ -37,15 +37,12 @@ const PetScene = () => {
 };
 
 const ShapesContainer = styled.div`
-  position: relative;
+  position: absolute;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-  top: -1px;
-  left: -1px;
-  right: -1px;
-  bottom: -1px;
+
   width: 100%;
   height: 100vh;
   canvas {

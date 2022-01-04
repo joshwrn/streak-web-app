@@ -6,19 +6,27 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 const BottomBar = ({
-  setIsSidebarOpen,
+  setSidebarType,
   active,
 }: {
-  setIsSidebarOpen: (arg: (prev: boolean) => boolean) => void;
+  setSidebarType: (arg: (prev: string) => string) => void;
   active: number;
 }) => {
   return (
     <BarContainer>
-      <TasksButton onClick={() => setIsSidebarOpen((prev) => !prev)}>
+      <TasksButton
+        onClick={() =>
+          setSidebarType((prev) => (prev !== 'tasks' ? 'tasks' : 'none'))
+        }
+      >
         <TasksBadge>{active}</TasksBadge>
         Tasks
       </TasksButton>
-      <CreateButton>
+      <CreateButton
+        onClick={() =>
+          setSidebarType((prev) => (prev !== 'create' ? 'create' : 'none'))
+        }
+      >
         <AddIcon as={IoAddCircleOutline} size={30} />
       </CreateButton>
       <TasksButton>Stats</TasksButton>

@@ -1,17 +1,17 @@
 import { useState } from 'react';
 import { TaskProps } from './types';
 
+import Sidebar from '../reusable/Sidebar';
+
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
 const CreateNewBar = ({
-  setIsOpen,
-  isOpen,
+  setSidebarType,
   setTasks,
 }: {
-  setIsOpen: (arg: boolean) => void;
-  isOpen: boolean;
   // takes in a function technically because i'm accesssing prev state
+  setSidebarType: (arg: string) => void;
   setTasks: (arg: (prev: TaskProps[]) => TaskProps[]) => void;
 }) => {
   const [input, setInput] = useState<string>('');
@@ -27,12 +27,12 @@ const CreateNewBar = ({
         },
       ];
     });
-    setIsOpen(false);
+    setSidebarType('none');
   };
   return (
-    <AnimatePresence>
-      {isOpen && (
-        <TasksContainer
+    <Sidebar>
+      <AnimatePresence>
+        <InnerContainer
           key="createNewTaskContainer"
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
@@ -45,9 +45,9 @@ const CreateNewBar = ({
             onChange={(e) => setInput(e.target.value)}
           />
           <CreateTaskButton onClick={handleCreateNew}>Create</CreateTaskButton>
-        </TasksContainer>
-      )}
-    </AnimatePresence>
+        </InnerContainer>
+      </AnimatePresence>
+    </Sidebar>
   );
 };
 
@@ -61,7 +61,7 @@ const Header = styled.div`
   font-weight: bold;
 `;
 
-const TasksContainer = styled(motion.div)`
+const InnerContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -69,7 +69,13 @@ const TasksContainer = styled(motion.div)`
   gap: 2rem;
   width: 100%;
   height: 100%;
+
   overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 const StyledInput = styled.input`

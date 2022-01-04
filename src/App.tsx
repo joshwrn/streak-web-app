@@ -1,6 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import { TaskProps } from './components/Tasks/types';
 
 import TasksBar from './components/Tasks/TasksBar';
+import CreateNewBar from './components/Tasks/CreateTask';
 import BottomBar from './components/BottomBar/BottomBar';
 import Scene from './components/pet/Scene';
 
@@ -11,18 +14,37 @@ import styled from 'styled-components';
 
 import { AnimatePresence } from 'framer-motion';
 
+import { exampleTasks } from './components/Tasks/exampleTasks';
+
 function App() {
-  const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
+  const [sidebarType, setSidebarType] = useState<string>('none');
   const [active, setActive] = useState<number>(0);
+  const [tasks, setTasks] = useState<TaskProps[]>(exampleTasks);
+
+  useEffect(() => {
+    const activeTotal = tasks.filter(
+      (task: TaskProps) => task.completed === false
+    ).length;
+    setActive(activeTotal);
+  }, [tasks]);
 
   return (
     <ThemeProvider theme={theme}>
       <GlobalStyles />
       <StyledApp>
         <AnimatePresence>
-          {isSidebarOpen && <TasksBar setActive={setActive} />}
+          {sidebarType === 'tasks' && (
+            <TasksBar
+              tasks={tasks}
+              setTasks={setTasks}
+              setSidebarType={setSidebarType}
+            />
+          )}
+          {sidebarType === 'create' && (
+            <CreateNewBar setSidebarType={setSidebarType} setTasks={setTasks} />
+          )}
         </AnimatePresence>
-        <BottomBar active={active} setIsSidebarOpen={setIsSidebarOpen} />
+        <BottomBar active={active} setSidebarType={setSidebarType} />
         <Scene />
       </StyledApp>
     </ThemeProvider>

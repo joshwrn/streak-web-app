@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
 
 import FilterMenu from './FilterMenu';
-import CreateNewBar from './CreateTask';
+import Sidebar from '../reusable/Sidebar';
 
-import { IoCreateOutline } from 'react-icons/io5';
+import { IoClose } from 'react-icons/io5';
 
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -12,63 +12,46 @@ import { TaskProps } from './types';
 
 import { exampleTasks } from './exampleTasks';
 
-const TasksBar = ({ setActive }: { setActive: (arg: number) => void }) => {
-  const [tasks, setTasks] = useState<TaskProps[]>(exampleTasks);
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    const activeTotal = tasks.filter(
-      (task: TaskProps) => task.completed === false
-    ).length;
-    setActive(activeTotal);
-  }, [tasks]);
-
+const TasksBar = ({
+  tasks,
+  setTasks,
+  setSidebarType,
+}: {
+  tasks: TaskProps[];
+  setTasks: (arg: TaskProps[] | ((prev: TaskProps[]) => TaskProps[])) => void;
+  setSidebarType: (arg: string) => void;
+}) => {
   return (
-    <SidebarContainer>
-      <Sidebar
-        key="TaskContainer"
-        initial={{ opacity: 0, x: -100 }}
-        animate={{ opacity: 1, x: 0 }}
-        exit={{ opacity: 0, x: -500 }}
-      >
-        <HeaderContainer>
-          <FilterMenu setTasks={setTasks} exampleTasks={exampleTasks} />
-          <CreateButton
-            onClick={() => setIsOpen(!isOpen)}
-            as={IoCreateOutline}
-            size={27}
-          />
-        </HeaderContainer>
-        <AnimatePresence>
-          {isOpen ? (
-            <CreateNewBar
-              setIsOpen={setIsOpen}
-              isOpen={isOpen}
-              setTasks={setTasks}
-            />
-          ) : (
-            <TasksContainer
-              variants={containerVariants}
-              initial={'closed'}
-              animate={'open'}
-              exit={'closed'}
-            >
-              {tasks.map((item: TaskProps, index) => {
-                return (
-                  <Task
-                    key={index}
-                    task={item.task}
-                    completed={item.completed}
-                    streak={item.streak}
-                    setTasks={setTasks}
-                  />
-                );
-              })}
-            </TasksContainer>
-          )}
-        </AnimatePresence>
-      </Sidebar>
-    </SidebarContainer>
+    <Sidebar>
+      <HeaderContainer>
+        <FilterMenu setTasks={setTasks} exampleTasks={exampleTasks} />
+        <CloseButton
+          onClick={() => setSidebarType('none')}
+          as={IoClose}
+          size={27}
+        />
+      </HeaderContainer>
+      <AnimatePresence>
+        <InnerContainer
+          variants={containerVariants}
+          initial={'closed'}
+          animate={'open'}
+          exit={'closed'}
+        >
+          {tasks.map((item: TaskProps, index) => {
+            return (
+              <Task
+                key={index}
+                task={item.task}
+                completed={item.completed}
+                streak={item.streak}
+                setTasks={setTasks}
+              />
+            );
+          })}
+        </InnerContainer>
+      </AnimatePresence>
+    </Sidebar>
   );
 };
 
@@ -103,7 +86,7 @@ const Task = ({ task, completed, streak, setTasks }: TaskComponentProps) => {
   );
 };
 
-const CreateButton = styled.button`
+const CloseButton = styled.button`
   color: ${({ theme }) => theme.main.primaryText};
   cursor: pointer;
 `;
@@ -134,31 +117,6 @@ const containerVariants = {
   },
 };
 
-const SidebarContainer = styled.div`
-  position: absolute;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  z-index: 1;
-  width: 450px;
-  height: 100vh;
-`;
-
-const Sidebar = styled(motion.div)`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  background-color: ${({ theme }) => theme.main.background};
-  border: 1px solid ${({ theme }) => theme.main.border};
-  border-radius: 0.5rem;
-
-  width: 400px;
-  height: 95vh;
-  padding: 2rem;
-  gap: 2rem;
-`;
-
 const HeaderContainer = styled.div`
   display: flex;
   align-items: center;
@@ -167,15 +125,22 @@ const HeaderContainer = styled.div`
   padding: 0 1rem;
 `;
 
-const TasksContainer = styled(motion.div)`
+const InnerContainer = styled(motion.div)`
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+
   gap: 2rem;
   width: 100%;
   height: 100%;
+
   overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 const Number = styled.div<{ completed: TaskProps['completed'] }>`

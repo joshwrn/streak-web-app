@@ -82,6 +82,7 @@ const StyledInput = styled.input`
   width: 100%;
   height: 50px;
   color: ${({ theme }) => theme.main.primaryText};
+  background-color: transparent;
 `;
 
 const CreateTaskButton = styled.button`

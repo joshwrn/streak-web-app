@@ -1,5 +1,5 @@
 const colors = {
-  primary: '#252525',
+  primary: '#f6f6f6',
 };
 
 const { primary } = colors;
@@ -7,11 +7,11 @@ const { primary } = colors;
 const theme = {
   main: {
     background: primary,
-    hover: '#2b2b2b',
-    gradient: `linear-gradient(0deg, #000000, ${primary}, ${primary})`,
-    border: '#3b3b3b',
-    primaryText: '#d8d8d8',
-    secondaryText: '#727272',
+    hover: '#ffffff',
+    gradient: `linear-gradient(180deg, #000000 0%, #c4c4c4 80%)`,
+    border: '#dbdbdb',
+    primaryText: '#3d3d3d',
+    secondaryText: '#313131',
   },
 };
 

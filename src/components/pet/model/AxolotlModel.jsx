@@ -31,11 +31,11 @@ const FrillMaterial = () => {
       color="#ffa0c0"
       emissive={'#ff7aa6'}
       emissiveIntensity={0.2}
-      transmission={1}
-      roughness={0.5}
-      thickness={500}
+      transmission={0.15}
+      roughness={0.8}
+      thickness={0}
       attach="material"
-      clearcoat={0.2}
+      clearcoat={0.5}
       clearcoatRoughness={0.5}
     />
   );

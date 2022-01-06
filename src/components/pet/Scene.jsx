@@ -12,7 +12,7 @@ const PetScene = () => {
     <ShapesContainer>
       <Suspense fallback={null}>
         <Canvas
-          camera={{ position: [0, 0, 60] }}
+          camera={{ position: [0, 7, 60] }}
           dpr={2}
           resize={{ scroll: false, offsetSize: true }}
         >
@@ -27,7 +27,7 @@ const PetScene = () => {
           />
           <Axolotl
             scale={[15, 15, 15]}
-            position={[0, 0, -10]}
+            position={[0, 7, -10]}
             rotation={[0, 4.7, 0]}
           />
         </Canvas>
@@ -37,14 +37,14 @@ const PetScene = () => {
 };
 
 const ShapesContainer = styled.div`
-  position: absolute;
+  position: relative;
   text-align: center;
   display: flex;
   align-items: center;
   justify-content: center;
-
+  background: ${({ theme }) => theme.main.gradient};
   width: 100%;
-  height: 100vh;
+  height: 50vh;
   canvas {
     width: 100%;
     height: 100%;

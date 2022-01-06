@@ -35,7 +35,6 @@ const BottomBar = ({
 };
 
 const BarContainer = styled.div`
-  position: absolute;
   bottom: 0;
   width: 100%;
   height: 150px;

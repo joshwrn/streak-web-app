@@ -5,6 +5,8 @@ import { TaskProps } from './components/Tasks/types';
 import TasksBar from './components/Tasks/TasksBar';
 import CreateNewBar from './components/Tasks/CreateTask';
 import BottomBar from './components/BottomBar/BottomBar';
+import TopBar from './components/TopBar/TopBar';
+import BottomSection from './components/BottomBar/BottomSection';
 import Scene from './components/pet/Scene';
 
 import GlobalStyles from './styles/GlobalStyles';
@@ -44,16 +46,18 @@ function App() {
             <CreateNewBar setSidebarType={setSidebarType} setTasks={setTasks} />
           )}
         </AnimatePresence>
-        <BottomBar active={active} setSidebarType={setSidebarType} />
+        <TopBar />
         <Scene />
+        {/* <BottomBar active={active} setSidebarType={setSidebarType} /> */}
+        <BottomSection />
       </StyledApp>
     </ThemeProvider>
   );
 }
 
 const StyledApp = styled.div`
-  background: ${({ theme }) => theme.main.gradient};
   display: flex;
+  flex-direction: column;
   width: 100vw;
   height: 100vh;
 `;

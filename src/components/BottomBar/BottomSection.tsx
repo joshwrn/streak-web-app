@@ -1,18 +1,32 @@
-import React from 'react';
+import { useState } from 'react';
+
+import TasksBar from '../Tasks/TasksBar';
+import Focus from '../Focus/Focus';
+import { TaskProps } from '../Tasks/types';
+import { exampleTasks } from '../Tasks/exampleTasks';
 
 import styled from 'styled-components';
-import { motion } from 'framer-motion';
 
 const BottomSection = () => {
+  const [tasks, setTasks] = useState<TaskProps[]>(exampleTasks);
+  const [page, setPage] = useState('Tasks');
   return (
     <Container>
       <Header>
-        <HeaderText>Focus</HeaderText>
+        <HeaderText>{page}</HeaderText>
         <NavContainer>
-          <PageIcon active={false} />
-          <PageIcon active={true} />
+          <PageIcon
+            active={page === 'Tasks' ? true : false}
+            onClick={() => setPage('Tasks')}
+          />
+          <PageIcon
+            active={page !== 'Tasks' ? true : false}
+            onClick={() => setPage('Focus')}
+          />
         </NavContainer>
       </Header>
+      {page === 'Tasks' && <TasksBar tasks={tasks} setTasks={setTasks} />}
+      {page === 'Focus' && <Focus />}
     </Container>
   );
 };
@@ -23,7 +37,7 @@ const Header = styled.div`
   justify-content: center;
   align-items: center;
   width: 100%;
-  height: 7rem;
+  padding-bottom: 1.5rem;
 `;
 
 const HeaderText = styled.h1`
@@ -57,10 +71,8 @@ const Container = styled.div`
   align-items: center;
   width: 100%;
   height: 50vh;
-  background-color: ${({ theme }) => theme.main.secondaryBackground};
-  /* border: 1px solid ${({ theme }) => theme.main.border}; */
-  /* border-radius: 2rem 2rem 0 0; */
-  /* box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); */
+  background-color: ${({ theme }) => theme.main.primaryBackground};
+  padding: 0 3rem;
 `;
 
 export default BottomSection;

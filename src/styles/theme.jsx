@@ -1,6 +1,6 @@
 const colors = {
-  primary: '#f1f1f1',
-  secondary: '#d3d3d3',
+  primary: '#0e0c27',
+  secondary: '#0D0F52',
 };
 
 const { primary, secondary } = colors;
@@ -9,11 +9,11 @@ const theme = {
   main: {
     background: primary,
     secondaryBackground: secondary,
-    hover: '#2b2b2b',
-    gradient: `linear-gradient(0deg, ${secondary}, ${primary}, ${primary})`,
+    hover: '#00000057',
+    gradient: `radial-gradient(50% 50% at 50% 50%, ${secondary} 0%, ${primary} 100%)`,
     border: '#b8b8b8',
-    primaryText: '#464646',
-    secondaryText: '#727272',
+    primaryText: '#E4E4E4',
+    secondaryText: '#FFFFFF',
   },
 };
 

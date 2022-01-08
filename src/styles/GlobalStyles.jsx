@@ -1,18 +1,28 @@
 import { createGlobalStyle } from 'styled-components';
 
+import Epilogue from '../assets/fonts/Epilogue-Regular.ttf';
+import EpilogueBold from '../assets/fonts/Epilogue-Bold.ttf';
+
 const GlobalStyles = createGlobalStyle`
+
+@font-face {
+  font-family: 'Epilogue-Bold';
+  src: url(${EpilogueBold}) format('woff');
+}
 
 html {
   background-color: ${({ theme }) => theme.main.background};
   width: 100vw;
-  overflow-x: hidden;
+  height: 100vh;
+  overflow: hidden;
   scroll-behavior: smooth;
 }
 
 body {
   position: relative;
-  overflow-x: hidden;
+  overflow: hidden;
   width: 100vw;
+  height: 100vh;
   background-color: ${({ theme }) => theme.main.background};
   z-index: -3;
   transition: background-color 0.5s ease-in-out;
@@ -40,20 +50,13 @@ h3,
 h4,
 h5 {
   font-size: 2rem;
-  font-family: haas, helvetica, arial, sans-serif;
+  font-family:  helvetica, arial, sans-serif;
 }
 
 a {
   text-decoration: none;
 }
 
-input {
-  padding: 0 16px;
-  border: 1px solid rgba(124, 124, 124, 0.281);
-  border-radius: 10px;
-  height: 30px;
-  width: 200px;
-}
 
 input,
 select,

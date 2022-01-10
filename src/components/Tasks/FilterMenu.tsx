@@ -5,31 +5,16 @@ import { TaskProps } from './types';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
-type FilterTypes = 'All' | 'Active' | 'Completed';
+type FilterTypes = 'Active' | 'Completed';
 
 const FilterMenu = ({
-  setTasks,
-  exampleTasks,
+  setFilter,
+  filter,
 }: {
-  setTasks: (arg: TaskProps[]) => void;
-  exampleTasks: TaskProps[];
+  setFilter: (arg: FilterTypes) => void;
+  filter: FilterTypes;
 }) => {
-  const [filter, setFilter] = useState<FilterTypes>('All');
   const [isOpen, setIsOpen] = useState<boolean>(false);
-
-  useEffect(() => {
-    if (filter === 'All') {
-      setTasks(exampleTasks);
-    } else if (filter === 'Completed') {
-      setTasks(
-        exampleTasks.filter((task: TaskProps) => task.completed === true)
-      );
-    } else if (filter === 'Active') {
-      setTasks(
-        exampleTasks.filter((task: TaskProps) => task.completed === false)
-      );
-    }
-  }, [filter]);
 
   const handleFilter = (selectedFilter: FilterTypes) => {
     setFilter(selectedFilter);
@@ -50,9 +35,6 @@ const FilterMenu = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <DropdownItem onMouseDown={() => handleFilter('All')}>
-            All
-          </DropdownItem>
           <DropdownItem onMouseDown={() => handleFilter('Active')}>
             Active
           </DropdownItem>
@@ -72,19 +54,20 @@ const HeaderContainer = styled.div`
   color: ${({ theme }) => theme.main.primaryText};
   cursor: pointer;
   font-weight: bold;
-  font-size: 1.9rem;
+  font-size: 1.6rem;
 `;
 
 const DropdownContainer = styled(motion.div)`
   position: absolute;
   width: 200px;
   height: fit-content;
-  background: ${({ theme }) => theme.main.background};
-  border: 1px solid ${({ theme }) => theme.main.border};
+  background: ${({ theme }) => theme.task.primary};
+  backdrop-filter: blur(5px);
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   border-radius: 0.5rem;
   padding: 0.5rem;
-  transform: translateY(80px);
-  z-index: 1;
+  transform: translateY(30px);
+  z-index: 3;
 `;
 
 const DropdownItem = styled.div`

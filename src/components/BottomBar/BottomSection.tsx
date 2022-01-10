@@ -2,13 +2,12 @@ import { useState } from 'react';
 
 import TasksBar from '../Tasks/TasksBar';
 import Focus from '../Focus/Focus';
-import { TaskProps } from '../Tasks/types';
-import { exampleTasks } from '../Tasks/exampleTasks';
+
+import { AnimatePresence, motion } from 'framer-motion';
 
 import styled from 'styled-components';
 
 const BottomSection = () => {
-  const [tasks, setTasks] = useState<TaskProps[]>(exampleTasks);
   const [page, setPage] = useState('Tasks');
   return (
     <Container>
@@ -25,11 +24,21 @@ const BottomSection = () => {
           />
         </NavContainer>
       </Header>
-      {page === 'Tasks' && <TasksBar tasks={tasks} setTasks={setTasks} />}
-      {page === 'Focus' && <Focus />}
+      <Content>
+        <AnimatePresence initial={false}>
+          {page === 'Tasks' && <TasksBar key={1} />}
+          {page === 'Focus' && <Focus key={2} />}
+        </AnimatePresence>
+      </Content>
     </Container>
   );
 };
+
+const Content = styled.div`
+  display: flex;
+  justify-content: center;
+  width: 100%;
+`;
 
 const Header = styled.div`
   display: flex;
@@ -58,6 +67,7 @@ const NavContainer = styled.div`
 const PageIcon = styled.div<{ active: boolean }>`
   width: 0.6rem;
   height: 0.6rem;
+  cursor: pointer;
   border-radius: 100%;
   background-color: ${({ theme }) => theme.main.secondaryText};
   opacity: ${({ active }) => (active ? 1 : 0.5)};

@@ -11,22 +11,17 @@ export default function Model({ ...props }) {
   );
   const { actions } = useAnimations(animations, group);
   useEffect(() => {
-    console.log('actions', actions, 'nodes:', nodes);
-    console.log('animations', animations);
     if (!nodes) return;
     nodes.EyesOpen.scale.set(1, 1, 1);
     nodes['eyesopen_05'].scale.set(0.5, 0.5, 0.5);
-    console.log('nodes.EyesOpen', nodes.EyesOpen);
   }, [actions]);
 
   useEffect(() => {
-    console.log('eyeRef', eyeRef);
     if (!eyeRef.current) return;
     // eyeRef.current.material.color.set('#ff0000');
     // eyeRef.current.scale.set(0.5, 0.5, 0.5);
     // loop through all bones
     const boneArray = eyeRef.current.skeleton.bones;
-    console.log('cur bone', boneArray[5]);
     // boneArray[5].position.set(0.5, 0.5, 0.5);
     // boneArray[9].position.set(0.5, 0.5, 0.5);
     // boneArray[10].position.set(0, 0.1, 0.45);

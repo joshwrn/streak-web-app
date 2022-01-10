@@ -3,7 +3,7 @@ import { Suspense } from 'react';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, ContactShadows } from '@react-three/drei';
 
-import Panda from './model/Panda';
+import Panda from './Panda';
 
 import styled from 'styled-components';
 

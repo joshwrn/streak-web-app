@@ -4,23 +4,23 @@ export const exampleTasks: TaskProps[] = [
   {
     task: 'read a book',
     completed: false,
-    streak: 46,
+    streak: 5,
   },
   {
     task: 'walk the dog',
     completed: false,
-    streak: 2,
+    streak: 3,
   },
   {
     task: 'Go to the gym',
     completed: false,
-    streak: 13,
+    streak: 15,
   },
-  // {
-  //   task: 'run',
-  //   completed: false,
-  //   streak: 20,
-  // },
+  {
+    task: 'run',
+    completed: false,
+    streak: 8,
+  },
   // {
   //   task: 'study',
   //   completed: false,

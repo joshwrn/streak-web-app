@@ -8,15 +8,29 @@ import { FiCircle, FiCheckCircle } from 'react-icons/fi';
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
+interface TaskComponentProps extends TaskProps {
+  setTasks: (arg: (prev: TaskProps[]) => TaskProps[]) => void;
+  setPage: (arg: string) => void;
+  setActiveTask: (arg: string) => void;
+  index: number;
+}
+
 const Task = ({
   task,
   completed,
   streak,
   setTasks,
+  setPage,
+  setActiveTask,
   index,
 }: TaskComponentProps) => {
   const [isCompleted, setIsCompleted] = useState(completed);
   const { setTotalXP } = useAuth();
+
+  const handleOpenTask = () => {
+    setPage('taskItem');
+    setActiveTask(task);
+  };
 
   const handleComplete = () => {
     setIsCompleted(!isCompleted);
@@ -48,7 +62,7 @@ const Task = ({
       custom={index}
       layout={true}
     >
-      <TaskContainer>
+      <TaskContainer onClick={handleOpenTask}>
         <Number completed={isCompleted}>{streak}</Number>
         <Food streak={streak} />
         <TaskText completed={isCompleted}>{task}</TaskText>
@@ -62,22 +76,20 @@ const Task = ({
   );
 };
 
-interface TaskComponentProps extends TaskProps {
-  setTasks: (arg: (prev: TaskProps[]) => TaskProps[]) => void;
-  index: number;
-}
-
 const TaskContainer = styled.div`
   display: flex;
   align-items: center;
+  width: 100%;
+  cursor: pointer;
 `;
 
 const CheckIcon = styled.div`
   color: ${({ theme }) => theme.main.primaryText};
   margin-right: 2.5rem;
   position: relative;
-  z-index: 1;
+  z-index: 2;
 `;
+
 const Number = styled.div<{ completed: TaskProps['completed'] }>`
   position: relative;
   z-index: 1;
@@ -120,8 +132,6 @@ const StyledTask = styled(motion.div)`
   height: 7rem;
   border-radius: 0.8rem;
   overflow: hidden;
-
-  cursor: pointer;
 
   background: ${({ theme }) => theme.task.gradient};
 `;

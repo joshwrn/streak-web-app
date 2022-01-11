@@ -55,6 +55,7 @@ const HeaderContainer = styled.div`
   cursor: pointer;
   font-weight: bold;
   font-size: 1.6rem;
+  height: 2rem;
 `;
 
 const DropdownContainer = styled(motion.div)`

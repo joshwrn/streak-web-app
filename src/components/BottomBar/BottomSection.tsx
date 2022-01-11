@@ -3,7 +3,7 @@ import { useState } from 'react';
 import TasksBar from '../Tasks/TasksBar';
 import Focus from '../Focus/Focus';
 
-import { AnimatePresence, motion } from 'framer-motion';
+import { AnimatePresence } from 'framer-motion';
 
 import styled from 'styled-components';
 
@@ -35,9 +35,11 @@ const BottomSection = () => {
 };
 
 const Content = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   width: 100%;
+  height: 100%;
 `;
 
 const Header = styled.div`

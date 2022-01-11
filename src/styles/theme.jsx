@@ -16,11 +16,17 @@ const theme = {
     border: '#21033a',
     primaryText: '#E4E4E4',
     secondaryText: '#FFFFFF',
+    lightText: 'rgba(255, 255, 255, 0.404)',
   },
   task: {
     primary: taskPrimary,
     secondary: taskSecondary,
     gradient: `linear-gradient(267.7deg, ${taskSecondary} 0%, ${taskPrimary} 96.4%)`,
+  },
+  calendar: {
+    background: '#190B41',
+    cell: '#4C2582',
+    completedCell: '#DE426B',
   },
 };
 

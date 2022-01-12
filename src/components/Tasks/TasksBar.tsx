@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useAuth } from '../../context/AuthContext';
 
-import FilterMenu from './FilterMenu';
 import Task from './TaskItem';
 import TaskStats from './TaskStats';
 
@@ -11,12 +10,17 @@ import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
 type FilterTypes = 'Active' | 'Completed';
-type PageTypes = 'allTasks' | 'taskItem';
 
-const TasksBar = () => {
+const TasksBar = ({
+  setPage,
+  page,
+  filter,
+}: {
+  setPage: (arg: string) => void;
+  filter: FilterTypes;
+  page: string;
+}) => {
   const { setAllTasks, allTasks } = useAuth();
-  const [filter, setFilter] = useState<FilterTypes>('Active');
-  const [page, setPage] = useState<string>('allTasks');
   const [activeTask, setActiveTask] = useState<string>('');
 
   return (
@@ -31,43 +35,42 @@ const TasksBar = () => {
     >
       <AnimatePresence>
         {/* TASK STATS */}
-        {page === 'taskItem' ? (
+        {page === 'Stats' ? (
           <TaskStats activeTask={activeTask} setPage={setPage} />
         ) : (
           <>
-            <FilterContainer>
-              <FilterMenu filter={filter} setFilter={setFilter} />
-            </FilterContainer>
-
-            {allTasks.map((item: TaskProps, index: number) => {
-              const taskItem = (
-                <Task
-                  key={index}
-                  task={item.task}
-                  completed={item.completed}
-                  streak={item.streak}
-                  setTasks={setAllTasks}
-                  setPage={setPage}
-                  setActiveTask={setActiveTask}
-                  index={index}
-                />
-              );
-              if (filter === 'Active' && !item.completed) {
-                return taskItem;
-              } else if (filter === 'Completed' && item.completed) {
-                return taskItem;
-              }
-            })}
-
-            {filter === 'Active' &&
-            allTasks.filter((item: TaskProps) => !item.completed).length ===
-              0 ? (
-              <NoTask>No Active Streaks 😃</NoTask>
-            ) : (
-              filter === 'Completed' &&
-              allTasks.filter((item: TaskProps) => item.completed).length ===
-                0 && <NoTask>No Completed Streaks 😬</NoTask>
-            )}
+            <TaskItemsContainer>
+              <AnimatePresence>
+                {allTasks.map((item: TaskProps, index: number) => {
+                  const taskItem = (
+                    <Task
+                      key={index}
+                      task={item.task}
+                      completed={item.completed}
+                      streak={item.streak}
+                      setTasks={setAllTasks}
+                      setPage={setPage}
+                      setActiveTask={setActiveTask}
+                      index={index}
+                    />
+                  );
+                  if (filter === 'Active' && !item.completed) {
+                    return taskItem;
+                  } else if (filter === 'Completed' && item.completed) {
+                    return taskItem;
+                  }
+                })}
+              </AnimatePresence>
+              {filter === 'Active' &&
+              allTasks.filter((item: TaskProps) => !item.completed).length ===
+                0 ? (
+                <NoTask>No Active Streaks 😃</NoTask>
+              ) : (
+                filter === 'Completed' &&
+                allTasks.filter((item: TaskProps) => item.completed).length ===
+                  0 && <NoTask>No Completed Streaks 😬</NoTask>
+              )}
+            </TaskItemsContainer>
           </>
         )}
       </AnimatePresence>
@@ -95,9 +98,28 @@ const NoTask = styled.div`
   background: ${({ theme }) => theme.task.gradient};
 `;
 
-const FilterContainer = styled.div`
+const TaskItemsContainer = styled.div`
   display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  position: relative;
+
   width: 100%;
+  height: 100%;
+  gap: 2rem;
+
+  ::after {
+    content: '';
+    padding-top: 7rem;
+  }
+
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
+    display: none;
+  }
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 `;
 
 const InnerContainer = styled(motion.div)`
@@ -105,18 +127,18 @@ const InnerContainer = styled(motion.div)`
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
+  position: relative;
 
   gap: 2rem;
   width: 100%;
   max-width: 50rem;
-  height: 100%;
 
-  /* overflow-y: auto; */
-  /* ::-webkit-scrollbar {
+  overflow-y: scroll;
+  ::-webkit-scrollbar {
     display: none;
   }
   -ms-overflow-style: none;
-  scrollbar-width: none; */
+  scrollbar-width: none;
 `;
 
 export default TasksBar;

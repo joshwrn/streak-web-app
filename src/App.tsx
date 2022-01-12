@@ -14,21 +14,32 @@ function App() {
     <AuthProvider>
       <ThemeProvider theme={theme}>
         <GlobalStyles />
-        <StyledApp>
-          <TopBar />
-          <Scene />
-          <BottomSection />
-        </StyledApp>
+        <Container>
+          <StyledApp>
+            <TopBar />
+            <Scene />
+            <BottomSection />
+          </StyledApp>
+        </Container>
       </ThemeProvider>
     </AuthProvider>
   );
 }
 
+const Container = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+`;
+
 const StyledApp = styled.div`
   display: flex;
+  position: relative;
   flex-direction: column;
   width: 100vw;
   height: 100vh;
+  max-width: 50rem;
 `;
 
 export default App;

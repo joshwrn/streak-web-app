@@ -28,7 +28,7 @@ const Task = ({
   const { setTotalXP } = useAuth();
 
   const handleOpenTask = () => {
-    setPage('taskItem');
+    setPage('Stats');
     setActiveTask(task);
   };
 
@@ -37,7 +37,6 @@ const Task = ({
     setTasks((prev: TaskProps[]) => {
       return prev.map((item: TaskProps) => {
         if (item.task === task) {
-          console.log(item.task, task);
           return {
             ...item,
             completed: !item.completed,
@@ -88,6 +87,7 @@ const CheckIcon = styled.div`
   margin-right: 2.5rem;
   position: relative;
   z-index: 2;
+  cursor: pointer;
 `;
 
 const Number = styled.div<{ completed: TaskProps['completed'] }>`
@@ -113,6 +113,7 @@ const TaskText = styled.div<{ completed: TaskProps['completed'] }>`
   z-index: 1;
 
   font-size: 1.7rem;
+  font-weight: bold;
   text-decoration: ${({ completed }) => (completed ? 'line-through' : 'none')};
 
   color: ${({ theme, completed }) =>
@@ -122,6 +123,7 @@ const TaskText = styled.div<{ completed: TaskProps['completed'] }>`
 const StyledTask = styled(motion.div)`
   position: relative;
   display: flex;
+  flex-shrink: 0;
   align-content: center;
   align-items: center;
   justify-content: space-between;
@@ -131,9 +133,9 @@ const StyledTask = styled(motion.div)`
   width: 100%;
   height: 7rem;
   border-radius: 0.8rem;
-  overflow: hidden;
 
   background: ${({ theme }) => theme.task.gradient};
+  background: #3305b1;
 `;
 
 const variants = {

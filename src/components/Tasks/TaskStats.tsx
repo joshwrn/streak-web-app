@@ -9,6 +9,7 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 import donut from '../../assets/food/donutSprinkles_NE.png';
+import TaskStatsFood from './TaskStatsFood';
 
 const placeholder = {
   task: '',
@@ -55,12 +56,9 @@ const TaskStats = ({ activeTask, setPage }: TaskInfo) => {
       initial="initial"
       exit="exit"
     >
-      <Back onClick={() => setPage('allTasks')}>
-        <Arrow size={30} />
-        Back To Tasks
-      </Back>
       <InfoContainer>
         <Food src={donut} />
+        {/* <TaskStatsFood /> */}
         <TaskInfo>
           <TaskHeader>{currentTask.task}</TaskHeader>
           <StreakRow>
@@ -157,10 +155,9 @@ const Back = styled.div`
   display: flex;
   align-items: center;
   gap: 1rem;
-  font-size: 1.6rem;
-  width: 100%;
+  font-size: 1.3rem;
   color: ${({ theme }) => theme.main.lightText};
-  height: 2rem;
+  height: 100%;
 `;
 
 // Info
@@ -220,25 +217,29 @@ const StreakNumber = styled.p`
 const CalendarContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: center;
   margin-top: 2.4rem;
   width: 100%;
   gap: 1rem;
 `;
 
 const CalendarHeader = styled.h3`
-  font-size: 1.6rem;
+  font-size: 1.3rem;
   color: ${({ theme }) => theme.main.lightText};
+  align-self: flex-start;
 `;
 
 const Calendar = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   flex-wrap: wrap;
 
   width: 100%;
+  max-width: 40rem;
   height: 18rem;
-  padding: 1.5rem 2.5rem;
+  padding: 1.5rem 2rem;
   gap: 0.4rem;
 
   background-color: #190b41;

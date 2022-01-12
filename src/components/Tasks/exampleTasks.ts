@@ -21,14 +21,14 @@ export const exampleTasks: TaskProps[] = [
     completed: false,
     streak: 8,
   },
-  // {
-  //   task: 'study',
-  //   completed: false,
-  //   streak: 31,
-  // },
-  // {
-  //   task: 'code',
-  //   completed: false,
-  //   streak: 46,
-  // },
+  {
+    task: 'study',
+    completed: false,
+    streak: 31,
+  },
+  {
+    task: 'code',
+    completed: false,
+    streak: 46,
+  },
 ];

@@ -26,7 +26,7 @@ const FilterMenu = ({
       <HeaderContainer
         onClick={() => setIsOpen((open: boolean) => (open ? false : true))}
       >
-        Sort: {filter}
+        {filter}
       </HeaderContainer>
       {isOpen && (
         <DropdownContainer
@@ -51,10 +51,10 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${({ theme }) => theme.main.primaryText};
+  color: ${({ theme }) => theme.main.lightText};
   cursor: pointer;
   font-weight: bold;
-  font-size: 1.6rem;
+  font-size: 1.5rem;
   height: 2rem;
 `;
 

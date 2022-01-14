@@ -134,8 +134,7 @@ const StyledTask = styled(motion.div)`
   height: 7rem;
   border-radius: 0.8rem;
 
-  background: ${({ theme }) => theme.task.gradient};
-  background: #3305b1;
+  background: ${({ theme }) => theme.task.background};
 `;
 
 const variants = {

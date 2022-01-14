@@ -26,7 +26,7 @@ const TasksBar = ({
   return (
     <InnerContainer
       animate={{ opacity: 1, x: 0 }}
-      initial={{ opacity: 0, x: '100vh' }}
+      initial={false}
       exit={{ opacity: 0, x: '-100vh', position: 'absolute' }}
       transition={{
         opacity: { type: 'spring', damping: 15 },
@@ -38,40 +38,38 @@ const TasksBar = ({
         {page === 'Stats' ? (
           <TaskStats activeTask={activeTask} setPage={setPage} />
         ) : (
-          <>
-            <TaskItemsContainer>
-              <AnimatePresence>
-                {allTasks.map((item: TaskProps, index: number) => {
-                  const taskItem = (
-                    <Task
-                      key={index}
-                      task={item.task}
-                      completed={item.completed}
-                      streak={item.streak}
-                      setTasks={setAllTasks}
-                      setPage={setPage}
-                      setActiveTask={setActiveTask}
-                      index={index}
-                    />
-                  );
-                  if (filter === 'Active' && !item.completed) {
-                    return taskItem;
-                  } else if (filter === 'Completed' && item.completed) {
-                    return taskItem;
-                  }
-                })}
-              </AnimatePresence>
-              {filter === 'Active' &&
-              allTasks.filter((item: TaskProps) => !item.completed).length ===
-                0 ? (
-                <NoTask>No Active Streaks 😃</NoTask>
-              ) : (
-                filter === 'Completed' &&
-                allTasks.filter((item: TaskProps) => item.completed).length ===
-                  0 && <NoTask>No Completed Streaks 😬</NoTask>
-              )}
-            </TaskItemsContainer>
-          </>
+          <TaskItemsContainer>
+            <AnimatePresence>
+              {allTasks.map((item: TaskProps, index: number) => {
+                const taskItem = (
+                  <Task
+                    key={index}
+                    task={item.task}
+                    completed={item.completed}
+                    streak={item.streak}
+                    setTasks={setAllTasks}
+                    setPage={setPage}
+                    setActiveTask={setActiveTask}
+                    index={index}
+                  />
+                );
+                if (filter === 'Active' && !item.completed) {
+                  return taskItem;
+                } else if (filter === 'Completed' && item.completed) {
+                  return taskItem;
+                }
+              })}
+            </AnimatePresence>
+            {filter === 'Active' &&
+            allTasks.filter((item: TaskProps) => !item.completed).length ===
+              0 ? (
+              <NoTask>No Active Streaks 😃</NoTask>
+            ) : (
+              filter === 'Completed' &&
+              allTasks.filter((item: TaskProps) => item.completed).length ===
+                0 && <NoTask>No Completed Streaks 😬</NoTask>
+            )}
+          </TaskItemsContainer>
         )}
       </AnimatePresence>
     </InnerContainer>
@@ -131,7 +129,6 @@ const InnerContainer = styled(motion.div)`
 
   gap: 2rem;
   width: 100%;
-  max-width: 50rem;
 
   overflow-y: scroll;
   ::-webkit-scrollbar {

@@ -176,6 +176,7 @@ const TaskHeader = styled.h1`
   font-weight: bold;
   margin-bottom: 0.5rem;
   color: ${({ theme }) => theme.main.primaryText};
+  font-family: ${({ theme }) => theme.main.boldFont};
 `;
 
 const TaskInfo = styled.div`
@@ -242,7 +243,7 @@ const Calendar = styled.div`
   padding: 1.5rem 2rem;
   gap: 0.4rem;
 
-  background-color: #190b41;
+  background-color: ${({ theme }) => theme.calendar.background};
   border-radius: 0.8rem;
 `;
 

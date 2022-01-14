@@ -1,6 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
 
-import Epilogue from '../assets/fonts/Epilogue-Regular.ttf';
 import EpilogueBold from '../assets/fonts/Epilogue-Bold.ttf';
 
 const GlobalStyles = createGlobalStyle`
@@ -32,7 +31,7 @@ body {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font: 62.5% Helvetica, Arial, sans-serif;
+  font: 62.5%  Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-rendering: optimizeLegibility;
@@ -71,7 +70,6 @@ textarea::placeholder {
 }
 
 input::placeholder {
-  color: rgb(126, 126, 126) !important;
   font-family: helvetica;
 }
 

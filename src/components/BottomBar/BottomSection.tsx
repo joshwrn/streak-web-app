@@ -2,10 +2,12 @@ import { useState } from 'react';
 
 import TasksBar from '../Tasks/TasksBar';
 import Focus from '../Focus/Focus';
+import CreateNewBar from '../Tasks/CreateTask';
 
 import { AnimatePresence } from 'framer-motion';
 
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
+import { IoCreateOutline } from 'react-icons/io5';
 import FilterMenu from '../Tasks/FilterMenu';
 
 import styled from 'styled-components';
@@ -18,7 +20,7 @@ const BottomSection = () => {
   return (
     <Container>
       <Header>
-        {page === 'Stats' && (
+        {(page === 'Stats' || page === 'Create') && (
           <Arrow size={30} onClick={() => setPage('Tasks')} />
         )}
         {page === 'Tasks' && (
@@ -30,7 +32,11 @@ const BottomSection = () => {
           <HeaderText>{page}</HeaderText>
           <NavContainer>
             <PageIcon
-              active={page === 'Tasks' || page === 'Stats' ? true : false}
+              active={
+                page === 'Tasks' || page === 'Stats' || page === 'Create'
+                  ? true
+                  : false
+              }
               onClick={() => setPage('Tasks')}
             />
             <PageIcon
@@ -39,18 +45,35 @@ const BottomSection = () => {
             />
           </NavContainer>
         </HeaderCenter>
+        <HeaderRight>
+          {page === 'Tasks' && (
+            <CreateIcon size={28} onClick={() => setPage('Create')} />
+          )}
+        </HeaderRight>
       </Header>
       <Content>
-        <AnimatePresence initial={false}>
-          {(page === 'Tasks' || page === 'Stats') && (
-            <TasksBar key={1} setPage={setPage} page={page} filter={filter} />
-          )}
-          {page === 'Focus' && <Focus key={2} />}
-        </AnimatePresence>
+        {(page === 'Tasks' || page === 'Stats') && (
+          <TasksBar key={1} setPage={setPage} page={page} filter={filter} />
+        )}
+        {page === 'Focus' && <Focus key={2} />}
+        {page === 'Create' && <CreateNewBar key={3} setPage={setPage} />}
       </Content>
     </Container>
   );
 };
+
+const HeaderRight = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  width: 100%;
+`;
+
+const CreateIcon = styled(IoCreateOutline)`
+  color: ${({ theme }) => theme.main.primaryText};
+  cursor: pointer;
+`;
+
 const FilterContainer = styled.div`
   display: flex;
   width: 100%;
@@ -63,6 +86,7 @@ const FilterContainer = styled.div`
 const Arrow = styled(HiOutlineArrowNarrowLeft)`
   color: ${({ theme }) => theme.main.primaryText};
   margin-left: 1rem;
+  cursor: pointer;
 `;
 
 const Content = styled.div`
@@ -93,6 +117,7 @@ const HeaderCenter = styled.div`
 const HeaderText = styled.h1`
   font-size: 2rem;
   font-weight: bold;
+  font-family: ${({ theme }) => theme.main.boldFont};
   color: ${({ theme }) => theme.main.primaryText};
 `;
 

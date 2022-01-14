@@ -1,6 +1,4 @@
-import { useState, useEffect } from 'react';
-
-import { TaskProps } from './types';
+import { useState } from 'react';
 
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -51,7 +49,7 @@ const HeaderContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-  color: ${({ theme }) => theme.main.lightText};
+  color: ${({ theme }) => theme.main.primaryText};
   cursor: pointer;
   font-weight: bold;
   font-size: 1.5rem;

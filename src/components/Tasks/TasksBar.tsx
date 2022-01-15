@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useAuth } from '../../context/AuthContext';
 
 import Task from './TaskItem';
@@ -21,7 +21,19 @@ const TasksBar = ({
   page: string;
 }) => {
   const { setAllTasks, allTasks } = useAuth();
+  // const [filteredTasks, setFilteredTasks] = useState<TaskProps[]>([]);
   const [activeTask, setActiveTask] = useState<string>('');
+
+  // useEffect(() => {
+  //   const filtered = allTasks.filter((task) => {
+  //     if (filter === 'Active') {
+  //       return !task.completed;
+  //     } else if (filter === 'Completed') {
+  //       return task.completed;
+  //     }
+  //   });
+  //   setFilteredTasks(filtered);
+  // }, [filter, allTasks]);
 
   return (
     <InnerContainer

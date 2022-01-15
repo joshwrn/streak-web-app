@@ -3,8 +3,6 @@ import { useState, useEffect } from 'react';
 import { TaskProps } from './types';
 import { useAuth } from '../../context/AuthContext';
 
-import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
-
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
@@ -93,70 +91,11 @@ const TaskStats = ({ activeTask, setPage }: TaskInfo) => {
   );
 };
 
-const cellVariants = {
-  initial: {
-    opacity: 0,
-    transform: 'scale(.5)',
-    transition: {
-      opacity: { stiffness: 1000 },
-      transform: { type: 'spring', damping: 15 },
-    },
-  },
-  animate: (index: number) => ({
-    opacity: 1,
-    transform: 'scale(1)',
-    transition: {
-      opacity: { stiffness: 1000 },
-      transform: { type: 'spring', damping: 15 },
-      delay: index * 0.005 + 0.2,
-    },
-  }),
-};
-
-const variants = {
-  initial: {
-    opacity: 0,
-    transform: 'scale(0)',
-    transition: {
-      opacity: { stiffness: 1000 },
-      transform: { type: 'spring', damping: 15 },
-    },
-  },
-  animate: {
-    opacity: 1,
-    transform: 'scale(1)',
-    transition: {
-      opacity: { stiffness: 1000 },
-      transform: { type: 'spring', damping: 15 },
-    },
-  },
-  exit: {
-    opacity: 0,
-    transform: 'scale(0)',
-    transition: {
-      opacity: { stiffness: 1000 },
-      transform: { type: 'spring', damping: 15 },
-    },
-  },
-};
-
 const Container = styled(motion.div)`
   display: flex;
+  position: relative;
   flex-direction: column;
   width: 100%;
-  height: 100%;
-`;
-
-const Arrow = styled(HiOutlineArrowNarrowLeft)`
-  color: ${({ theme }) => theme.main.primaryText};
-`;
-
-const Back = styled.div`
-  display: flex;
-  align-items: center;
-  gap: 1rem;
-  font-size: 1.3rem;
-  color: ${({ theme }) => theme.main.lightText};
   height: 100%;
 `;
 
@@ -254,5 +193,52 @@ const CalendarCell = styled(motion.div)<{ completed: string }>`
   background-color: ${({ theme, completed }) =>
     completed === 'true' ? theme.calendar.completedCell : theme.calendar.cell};
 `;
+
+const cellVariants = {
+  initial: {
+    opacity: 0,
+    transform: 'scale(.5)',
+    transition: {
+      opacity: { stiffness: 1000 },
+      transform: { type: 'spring', damping: 15 },
+    },
+  },
+  animate: (index: number) => ({
+    opacity: 1,
+    transform: 'scale(1)',
+    transition: {
+      opacity: { stiffness: 1000 },
+      transform: { type: 'spring', damping: 15 },
+      delay: index * 0.005 + 0.2,
+    },
+  }),
+};
+
+const variants = {
+  initial: {
+    opacity: 0,
+    transform: 'scale(0)',
+    transition: {
+      opacity: { stiffness: 1000 },
+      transform: { type: 'spring', damping: 15 },
+    },
+  },
+  animate: {
+    opacity: 1,
+    transform: 'scale(1)',
+    transition: {
+      opacity: { stiffness: 1000 },
+      transform: { type: 'spring', damping: 15 },
+    },
+  },
+  exit: {
+    opacity: 0,
+    transform: 'scale(0)',
+    transition: {
+      opacity: { stiffness: 1000 },
+      transform: { type: 'spring', damping: 15 },
+    },
+  },
+};
 
 export default TaskStats;

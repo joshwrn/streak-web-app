@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import Menu from '../Menu/Menu';
 import { useAuth } from '../../context/AuthContext';
+import { progressToNextLevel } from '../../utils/levelSystem';
 
 import { IoIosMenu } from 'react-icons/io';
 import { IoClose } from 'react-icons/io5';
@@ -46,9 +47,22 @@ const blurVariants = {
 
 const TopBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const { currentLevel, nextLevel, percent, currentProgress } = useAuth();
 
+  const [currentLevel, setCurrentLevel] = useState<number>(0);
+  const [currentProgress, setCurrentProgress] = useState<number>(0);
+  const [nextLevel, setNextLevel] = useState<number>(0);
+  const [percent, setPercent] = useState<number>(0);
+
+  const { totalXP } = useAuth();
   const blurControl = useAnimation();
+
+  useEffect(() => {
+    const totals = progressToNextLevel(totalXP);
+    setCurrentLevel(totals.currentLevel);
+    setCurrentProgress(totals.currentProgress);
+    setNextLevel(totals.pointsForNextLevel);
+    setPercent(totals.percent);
+  }, [totalXP]);
 
   useEffect(() => {
     blurControl.start('animate');

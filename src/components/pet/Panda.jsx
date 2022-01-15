@@ -2,18 +2,19 @@ import React, { useRef, useEffect } from 'react';
 import * as THREE from 'three';
 import { useGLTF, useAnimations } from '@react-three/drei';
 
-export default function Model({ ...props }) {
+export default function Model({ currentAction, ...props }) {
   const group = useRef();
   const eyeRef = useRef();
 
   const { nodes, materials, animations } = useGLTF(
     '../3d-models/panda/scene.gltf'
   );
-  const { actions } = useAnimations(animations, group);
+  const { ref, actions, names } = useAnimations(animations);
   useEffect(() => {
     if (!nodes) return;
     nodes.EyesOpen.scale.set(1, 1, 1);
     nodes['eyesopen_05'].scale.set(0.5, 0.5, 0.5);
+    console.log(ref, actions, names);
   }, [actions]);
 
   useEffect(() => {
@@ -25,20 +26,29 @@ export default function Model({ ...props }) {
     // boneArray[5].position.set(0.5, 0.5, 0.5);
     // boneArray[9].position.set(0.5, 0.5, 0.5);
     // boneArray[10].position.set(0, 0.1, 0.45);
+    if (boneArray[11].position === [0, 0, 0]) return;
     boneArray[11].position.set(0, 0, 0.4);
     // boneArray[5].scale.set(0.5, 2, 1);
     // boneArray[12].position.set(0.5, 0.5, 0.5);
     //boneArray[13].position.set(0, -0.05, 0.4);
     // boneArray[14].position.set(0.5, 0.5, 0.5);
     // console.log('boneArray after', boneArray);
-  }, [eyeRef, actions]);
+  }, [eyeRef]);
+
+  // useEffect(() => {
+  //   actions.Idle.reset().fadeIn(0.5).play();
+  // }, []);
 
   useEffect(() => {
-    actions.Idle.play();
-  }, []);
+    const boneArray = eyeRef.current.skeleton.bones;
+    actions[currentAction].reset().fadeIn(0.5).play();
+    setTimeout(() => {
+      boneArray[11].position.set(0, 0, 0.4);
+    }, 550);
+  }, [currentAction]);
 
   return (
-    <group ref={group} {...props} dispose={null}>
+    <group ref={ref} {...props} dispose={null}>
       <group rotation={[-Math.PI / 2, 0, 0]} scale={0.01}>
         <group rotation={[Math.PI / 2, 0, 0]}>
           <group rotation={[-Math.PI / 2, 0, 0]} scale={100}>

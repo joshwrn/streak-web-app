@@ -3,12 +3,11 @@ import { useState } from 'react';
 import TasksBar from '../Tasks/TasksBar';
 import Focus from '../Focus/Focus';
 import CreateNewBar from '../Tasks/CreateTask';
-
-import { AnimatePresence } from 'framer-motion';
+import FilterMenu from './FilterMenu';
+import EditMenu from './EditMenu';
 
 import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoCreateOutline } from 'react-icons/io5';
-import FilterMenu from '../Tasks/FilterMenu';
 
 import styled from 'styled-components';
 
@@ -47,8 +46,13 @@ const BottomSection = () => {
         </HeaderCenter>
         <HeaderRight>
           {page === 'Tasks' && (
-            <CreateIcon size={28} onClick={() => setPage('Create')} />
+            <CreateIcon
+              as={IoCreateOutline}
+              size={28}
+              onClick={() => setPage('Create')}
+            />
           )}
+          {page === 'Stats' && <EditMenu />}
         </HeaderRight>
       </Header>
       <Content>
@@ -69,7 +73,7 @@ const HeaderRight = styled.div`
   width: 100%;
 `;
 
-const CreateIcon = styled(IoCreateOutline)`
+const CreateIcon = styled.p`
   color: ${({ theme }) => theme.main.primaryText};
   cursor: pointer;
 `;

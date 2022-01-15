@@ -1,13 +1,45 @@
-import { Suspense } from 'react';
+import { Suspense, useState, useEffect } from 'react';
 
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, ContactShadows } from '@react-three/drei';
+import { Debug, Physics, usePlane, useBox } from '@react-three/cannon';
 
 import Panda from './Panda';
+import DonutSprinkles from '../food/DonutSprinkles';
 
 import styled from 'styled-components';
 
+function BoxTrigger({ args, onCollide, position }) {
+  const [ref] = useBox(() => ({ isTrigger: true, args, position, onCollide }));
+  return (
+    <mesh {...{ position, ref }}>
+      <boxBufferGeometry args={args} />
+      <meshStandardMaterial wireframe transparent opacity={0} />
+    </mesh>
+  );
+}
+
+function Plane(props) {
+  const [ref] = usePlane(() => ({ rotation: [-Math.PI / 2, 0, 0], ...props }));
+  return (
+    <mesh ref={ref} receiveShadow>
+      <planeGeometry args={[1000, 1000]} />
+      <shadowMaterial color="#ff0000" transparent opacity={1} />
+    </mesh>
+  );
+}
+
 const PetScene = () => {
+  const [currentAction, setCurrentAction] = useState('Idle');
+
+  useEffect(() => {
+    if (currentAction === 'Eat') {
+      setTimeout(() => {
+        setCurrentAction('Idle');
+      }, 5000);
+    }
+  }, [currentAction]);
+
   return (
     <ShapesContainer>
       <Suspense fallback={null}>
@@ -23,6 +55,7 @@ const PetScene = () => {
             scale={[18, 18, 18]}
             position={[0, -35, -20]}
             rotation={[0, 0.37, 0]}
+            currentAction={currentAction}
           />
           <ContactShadows
             opacity={0.6}
@@ -34,6 +67,17 @@ const PetScene = () => {
             far={100}
             resolution={256}
           />
+          <Physics gravity={[0, -50, 0]}>
+            <Plane position={[0, -35, 0]} />
+            {/* <DonutSprinkles position={[25, 50, 4]} />
+            <BoxTrigger
+              args={[70, 10, 40]}
+              onCollide={() => {
+                setCurrentAction('Eat');
+              }}
+              position={[0, -30, 0]}
+            /> */}
+          </Physics>
         </Canvas>
       </Suspense>
     </ShapesContainer>

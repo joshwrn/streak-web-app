@@ -1,30 +1,22 @@
 import { useState } from 'react';
 
+import { BiDotsVerticalRounded } from 'react-icons/bi';
+
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
-type FilterTypes = 'Active' | 'Completed';
-
-const FilterMenu = ({
-  setFilter,
-  filter,
-}: {
-  setFilter: (arg: FilterTypes) => void;
-  filter: FilterTypes;
-}) => {
+const EditMenu = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const handleFilter = (selectedFilter: FilterTypes) => {
-    setFilter(selectedFilter);
+  const handleFilter = () => {
     setIsOpen(false);
   };
-
   return (
     <AnimatePresence>
       <HeaderContainer
         onClick={() => setIsOpen((open: boolean) => (open ? false : true))}
       >
-        {filter}
+        <BiDotsVerticalRounded size={28} />
       </HeaderContainer>
       {isOpen && (
         <DropdownContainer
@@ -33,12 +25,8 @@ const FilterMenu = ({
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
         >
-          <DropdownItem onMouseDown={() => handleFilter('Active')}>
-            Active
-          </DropdownItem>
-          <DropdownItem onMouseDown={() => handleFilter('Completed')}>
-            Completed
-          </DropdownItem>
+          <DropdownItem>Edit</DropdownItem>
+          <DropdownItem>Delete</DropdownItem>
         </DropdownContainer>
       )}
     </AnimatePresence>
@@ -58,14 +46,14 @@ const HeaderContainer = styled.div`
 
 const DropdownContainer = styled(motion.div)`
   position: absolute;
-  width: 200px;
+  width: 15rem;
   height: fit-content;
   background: ${({ theme }) => theme.task.primary};
   backdrop-filter: blur(5px);
   box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.5);
   border-radius: 0.5rem;
   padding: 0.5rem;
-  transform: translateY(30px);
+  transform: translateY(6.5rem);
   z-index: 3;
 `;
 
@@ -79,4 +67,4 @@ const DropdownItem = styled.div`
   }
 `;
 
-export default FilterMenu;
+export default EditMenu;

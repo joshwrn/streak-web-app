@@ -84,7 +84,6 @@ const FilterContainer = styled.div`
   align-items: center;
 
   z-index: 3;
-  background: ${({ theme }) => theme.main.background};
 `;
 
 const Arrow = styled(HiOutlineArrowNarrowLeft)`

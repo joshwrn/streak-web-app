@@ -14,7 +14,6 @@ export default function Model({ currentAction, ...props }) {
     if (!nodes) return;
     nodes.EyesOpen.scale.set(1, 1, 1);
     nodes['eyesopen_05'].scale.set(0.5, 0.5, 0.5);
-    console.log(ref, actions, names);
   }, [actions]);
 
   useEffect(() => {

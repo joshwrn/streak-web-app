@@ -58,6 +58,7 @@ const Task = ({
       exit={'exit'}
       initial={'closed'}
       animate={'open'}
+      whileTap={{ scale: 0.95 }}
       custom={index}
       layout={true}
     >
@@ -83,7 +84,7 @@ const TaskContainer = styled.div`
 `;
 
 const CheckIcon = styled.div`
-  color: ${({ theme }) => theme.main.primaryText};
+  color: ${({ theme }) => theme.task.text};
   margin-right: 2.5rem;
   position: relative;
   z-index: 2;
@@ -117,7 +118,7 @@ const TaskText = styled.div<{ completed: TaskProps['completed'] }>`
   text-decoration: ${({ completed }) => (completed ? 'line-through' : 'none')};
 
   color: ${({ theme, completed }) =>
-    completed ? theme.main.secondaryText : theme.main.primaryText};
+    completed ? theme.main.secondaryText : theme.task.text};
 `;
 
 const StyledTask = styled(motion.div)`
@@ -128,11 +129,12 @@ const StyledTask = styled(motion.div)`
   align-items: center;
   justify-content: space-between;
 
-  color: ${({ theme }) => theme.main.primaryText};
+  color: ${({ theme }) => theme.task.text};
 
   width: 100%;
   height: 7rem;
   border-radius: 0.8rem;
+  border: 1px solid ${({ theme }) => theme.task.border};
 
   background: ${({ theme }) => theme.task.background};
 `;

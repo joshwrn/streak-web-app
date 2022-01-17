@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { AuthProvider } from './context/AuthContext';
 
 import TopBar from './components/TopBar/TopBar';
@@ -10,6 +11,7 @@ import { ThemeProvider } from 'styled-components';
 import styled from 'styled-components';
 
 function App() {
+  const [page, setPage] = useState('Tasks');
   return (
     <AuthProvider>
       <ThemeProvider theme={theme}>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import LevelUp from '../LevelUp/LevelUp';
 import Menu from '../Menu/Menu';
 import { useAuth } from '../../context/AuthContext';
 import { progressToNextLevel } from '../../utils/levelSystem';
@@ -48,16 +49,22 @@ const blurVariants = {
 const TopBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
-  const [currentLevel, setCurrentLevel] = useState<number>(0);
-  const [currentProgress, setCurrentProgress] = useState<number>(0);
-  const [nextLevel, setNextLevel] = useState<number>(0);
-  const [percent, setPercent] = useState<number>(0);
+  const [currentLevel, setCurrentLevel] = useState<number>(-1);
+  const [currentProgress, setCurrentProgress] = useState<number>(-1);
+  const [nextLevel, setNextLevel] = useState<number>(-1);
+  const [percent, setPercent] = useState<number>(-1);
+  const [levelUp, setLevelUp] = useState<boolean>(false);
 
   const { totalXP } = useAuth();
   const blurControl = useAnimation();
 
   useEffect(() => {
     const totals = progressToNextLevel(totalXP);
+
+    if (totals.currentLevel > currentLevel && currentLevel !== -1) {
+      setLevelUp(true);
+    }
+
     setCurrentLevel(totals.currentLevel);
     setCurrentProgress(totals.currentProgress);
     setNextLevel(totals.pointsForNextLevel);
@@ -80,13 +87,14 @@ const TopBar = () => {
           onClick={() => setIsMenuOpen(false)}
         />
       ) : (
-        <MenuButton
-          as={IoIosMenu}
-          size={40}
-          onClick={() => setIsMenuOpen(true)}
-        />
+        <MenuButton as={IoIosMenu} size={40} onClick={() => setLevelUp(true)} />
       )}
-      <AnimatePresence>{isMenuOpen && <Menu />}</AnimatePresence>
+      <AnimatePresence>
+        {levelUp && (
+          <LevelUp setLevelUp={setLevelUp} currentLevel={currentLevel} />
+        )}
+        {isMenuOpen && <Menu />}
+      </AnimatePresence>
       <MenuSection>
         <StatContainer>
           <Level>Level {currentLevel}</Level>

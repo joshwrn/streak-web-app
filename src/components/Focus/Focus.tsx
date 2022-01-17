@@ -1,6 +1,7 @@
 import React from 'react';
 
 import cake from '../../assets/food/cake.png';
+import PrimaryButton from '../reusable/PrimaryButton';
 
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
@@ -24,7 +25,7 @@ const Focus = () => {
           <Time>25:00</Time>
         </ImageContainer>
       </DialContainer>
-      <Button>Start</Button>
+      <PrimaryButton name="Start" onClick={() => {}} />
     </Container>
   );
 };
@@ -48,19 +49,6 @@ const ImageContainer = styled.div`
   position: absolute;
   width: 215px;
   height: 215px;
-`;
-
-const Button = styled.button`
-  background: #de426b;
-  border-radius: 0.8rem;
-  border: none;
-  color: ${({ theme }) => theme.main.primaryText};
-  font-size: 1.6rem;
-  width: 215px;
-  height: 53px;
-  font-size: 2.4rem;
-  font-family: Epilogue-Bold;
-  cursor: pointer;
 `;
 
 const Time = styled.p`

@@ -80,9 +80,19 @@ const PetScene = () => {
           </Physics>
         </Canvas>
       </Suspense>
+      <Gradient />
     </ShapesContainer>
   );
 };
+
+const Gradient = styled.div`
+  position: absolute;
+  background: ${({ theme }) => theme.main.gradient};
+  width: 125%;
+  height: 50vh;
+  top: 10rem;
+  z-index: -1;
+`;
 
 const ShapesContainer = styled.div`
   position: relative;
@@ -90,7 +100,7 @@ const ShapesContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  background: ${({ theme }) => theme.main.gradient};
+  /* background: ${({ theme }) => theme.main.gradient}; */
   width: 100%;
   height: 50vh;
   canvas {

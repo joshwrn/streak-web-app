@@ -29,7 +29,7 @@ const LevelUp = ({ setLevelUp, currentLevel }: Props) => {
       animate={'animate'}
       exit={'exit'}
       // @ts-ignore
-      custom={theme.task.background}
+      custom={theme.main.secondaryBackground}
     >
       <InnerContainer>
         <HeaderContainer>
@@ -243,19 +243,6 @@ const ButtonContainer = styled.div`
   align-items: flex-end;
   height: 100%;
   width: 100%;
-`;
-
-const ContinueButton = styled(motion.button)`
-  background: ${({ theme }) => theme.main.button};
-  flex-shrink: 0;
-  border-radius: ${({ theme }) => theme.main.borderRadius};
-  border: none;
-  color: ${({ theme }) => theme.main.primaryText};
-  width: 215px;
-  height: 53px;
-  font-size: 2rem;
-  font-family: ${({ theme }) => theme.main.boldFont};
-  cursor: pointer;
 `;
 
 export default LevelUp;

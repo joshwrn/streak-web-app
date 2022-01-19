@@ -1,12 +1,66 @@
-import React from 'react';
+import { useState, useEffect } from 'react';
 
-import cake from '../../assets/food/cake.png';
+import { useAuth } from '../../context/AuthContext';
+
+import FocusDial from './FocusDial';
+import FocusFinish from './FocusFinish';
 import PrimaryButton from '../reusable/PrimaryButton';
 
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
+type FinishTypes = 'none' | 'finish' | 'fail';
+
 const Focus = () => {
+  const [start, setStart] = useState(false);
+  const [finish, setFinish] = useState<FinishTypes>('none');
+  const [progress, setProgress] = useState(50);
+  const [startTime, setStartTime] = useState(10);
+  const [time, setTime] = useState(0);
+
+  useEffect(() => {
+    setTime(startTime);
+  }, [startTime]);
+
+  useEffect(() => {
+    const percent = (time / startTime) * 100;
+    setProgress(percent);
+    if (time === 0 && start === true) {
+      setTimeout(() => {
+        setStart(false);
+        setFinish('finish');
+      }, 1000);
+    }
+  }, [time]);
+
+  useEffect(() => {
+    const second = (time: number) => {
+      return time * 1000;
+    };
+
+    if (start) {
+      const interval = setTimeout(() => {
+        setTime(time - 1);
+      }, second(1));
+
+      if (time <= 0) {
+        clearTimeout(interval);
+        setStart(false);
+      }
+
+      return () => clearTimeout(interval);
+    }
+  });
+
+  const handleStart = () => {
+    if (start) {
+      setFinish('fail');
+      setStart(false);
+    } else {
+      setStart(true);
+    }
+  };
+
   return (
     <Container
       animate={{ opacity: 1, x: 0 }}
@@ -15,17 +69,34 @@ const Focus = () => {
       transition={{
         opacity: { type: 'spring', damping: 15 },
         x: { type: 'spring', damping: 15 },
+        delay: 0.1,
       }}
     >
-      <DialContainer>
-        <DialBackground />
-        <DialBorder />
-        <ImageContainer>
-          <img src={cake} alt="cake" />
-          <Time>25:00</Time>
-        </ImageContainer>
-      </DialContainer>
-      <PrimaryButton name="Start" onClick={() => {}} />
+      {finish !== 'none' ? (
+        <FocusFinish
+          startTime={startTime}
+          setTime={setTime}
+          setFinish={setFinish}
+          finish={finish}
+          time={time}
+        />
+      ) : (
+        <>
+          <FocusDial
+            time={time}
+            progress={progress}
+            start={start}
+            startTime={startTime}
+            setStartTime={setStartTime}
+          />
+          <ButtonContainer>
+            <PrimaryButton
+              name={start ? 'Stop' : 'Start'}
+              onClick={handleStart}
+            />
+          </ButtonContainer>
+        </>
+      )}
     </Container>
   );
 };
@@ -36,50 +107,18 @@ const Container = styled(motion.div)`
   align-items: center;
   justify-content: flex-start;
 
-  gap: 4rem;
   width: 100%;
   height: 100%;
+
+  padding: 0 0 8.7rem 0;
 `;
 
-const ImageContainer = styled.div`
+const ButtonContainer = styled.div`
   display: flex;
-  flex-direction: column;
   justify-content: center;
-  align-items: center;
-  position: absolute;
-  width: 215px;
-  height: 215px;
-`;
-
-const Time = styled.p`
-  font-size: 2rem;
-  color: ${({ theme }) => theme.main.primaryText};
-  font-weight: bold;
-`;
-
-const DialContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  height: 215px;
-  margin-top: 1rem;
-`;
-
-const DialBackground = styled.div`
-  width: 204px;
-  height: 204px;
-  border-radius: 50%;
-  background: linear-gradient(218.42deg, #262867 17.02%, #c04781 85.18%);
-`;
-
-const DialBorder = styled.div`
-  width: 215px;
-  height: 215px;
-  border-radius: 50%;
-  background: #de426b;
-  position: absolute;
-  z-index: -1;
+  align-items: flex-end;
+  height: 100%;
+  width: 100%;
 `;
 
 export default Focus;

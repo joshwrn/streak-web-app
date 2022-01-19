@@ -4,7 +4,7 @@ import { Canvas } from '@react-three/fiber';
 import { OrbitControls, ContactShadows } from '@react-three/drei';
 import { Debug, Physics, usePlane, useBox } from '@react-three/cannon';
 
-import Panda from './Panda';
+import Panda from './PetPanda';
 import DonutSprinkles from '../food/DonutSprinkles';
 
 import styled from 'styled-components';

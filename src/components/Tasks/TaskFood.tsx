@@ -36,10 +36,9 @@ const Food = ({ streak }: { streak: number }) => {
 
 const Image = styled.img`
   position: relative;
-  width: 3rem;
-  height: 3rem;
+  width: 3.8rem;
+  height: 3.8rem;
   z-index: 1;
-  margin-right: 2rem;
   object-fit: contain;
 `;
 

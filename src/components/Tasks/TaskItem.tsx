@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { TaskProps } from './types';
-import Food from './Food';
+import Food from './TaskFood';
 import { useAuth } from '../../context/AuthContext';
 
 import { FiCircle, FiCheckCircle } from 'react-icons/fi';
@@ -62,19 +62,32 @@ const Task = ({
       custom={index}
       layout={true}
     >
-      <TaskContainer onClick={handleOpenTask}>
-        <Number completed={isCompleted}>{streak}</Number>
+      <StartContainer>
         <Food streak={streak} />
+      </StartContainer>
+      <TaskContainer onClick={handleOpenTask}>
         <TaskText completed={isCompleted}>{task}</TaskText>
       </TaskContainer>
-      <CheckIcon
+      {/* <CheckIcon
         onClick={handleComplete}
         as={isCompleted ? FiCheckCircle : FiCircle}
         size={25}
-      />
+      /> */}
+      <EndContainer>
+        <Number onClick={handleComplete} completed={isCompleted}>
+          <NumberText>{streak}</NumberText>
+        </Number>
+      </EndContainer>
     </StyledTask>
   );
 };
+
+const StartContainer = styled.div`
+  display: flex;
+  align-items: center;
+  width: 4rem;
+  cursor: pointer;
+`;
 
 const TaskContainer = styled.div`
   display: flex;
@@ -83,9 +96,17 @@ const TaskContainer = styled.div`
   cursor: pointer;
 `;
 
+const EndContainer = styled.div`
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+
+  cursor: pointer;
+`;
+
 const CheckIcon = styled.div`
   color: ${({ theme }) => theme.task.text};
-  margin-right: 2.5rem;
+  /* margin-right: 2.5rem; */
   position: relative;
   z-index: 2;
   cursor: pointer;
@@ -99,14 +120,22 @@ const Number = styled.div<{ completed: TaskProps['completed'] }>`
   justify-content: center;
   align-items: center;
 
-  font-size: 2rem;
-  font-weight: bold;
-  font-family: Epilogue-Bold;
-
+  background-color: rgba(255, 255, 255, 0.075);
   border-radius: 100%;
-  width: 7rem;
+  /* border: 2px solid rgba(255, 255, 255, 0.034); */
+
+  width: 4rem;
+  height: 4rem;
 
   transition: background-color 0.2s ease-in-out;
+`;
+
+const NumberText = styled.div`
+  transform: translateY(0.2rem);
+  font-size: 1.8rem;
+  font-weight: bold;
+  font-family: ${({ theme }) => theme.main.boldFont};
+  color: ${({ theme }) => theme.task.text};
 `;
 
 const TaskText = styled.div<{ completed: TaskProps['completed'] }>`
@@ -114,11 +143,13 @@ const TaskText = styled.div<{ completed: TaskProps['completed'] }>`
   z-index: 1;
 
   font-size: 1.7rem;
-  font-weight: bold;
+  /* font-weight: bold; */
   text-decoration: ${({ completed }) => (completed ? 'line-through' : 'none')};
+  color: ${({ theme }) => theme.task.text};
+  /* font-family: ${({ theme }) => theme.main.boldFont}; */
 
-  color: ${({ theme, completed }) =>
-    completed ? theme.main.secondaryText : theme.task.text};
+  width: 100%;
+  margin-left: 3.5rem;
 `;
 
 const StyledTask = styled(motion.div)`
@@ -128,12 +159,11 @@ const StyledTask = styled(motion.div)`
   align-content: center;
   align-items: center;
   justify-content: space-between;
-
-  color: ${({ theme }) => theme.task.text};
+  padding: 0 2.5rem;
 
   width: 100%;
   height: 7rem;
-  border-radius: 0.8rem;
+  border-radius: 1.6rem;
   border: 1px solid ${({ theme }) => theme.task.border};
 
   background: ${({ theme }) => theme.task.background};

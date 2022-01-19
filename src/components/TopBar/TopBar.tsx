@@ -87,7 +87,11 @@ const TopBar = () => {
           onClick={() => setIsMenuOpen(false)}
         />
       ) : (
-        <MenuButton as={IoIosMenu} size={40} onClick={() => setLevelUp(true)} />
+        <MenuButton
+          as={IoIosMenu}
+          size={40}
+          onClick={() => setIsMenuOpen(true)}
+        />
       )}
       <AnimatePresence>
         {levelUp && (
@@ -119,7 +123,11 @@ const TopBar = () => {
           <TotalBlurBar />
         </LevelBarContainer>
       </MenuSection>
-      <SettingsButton as={IoSettingsOutline} size={28} />
+      <SettingsButton
+        as={IoSettingsOutline}
+        size={28}
+        onClick={() => setLevelUp(true)}
+      />
     </Container>
   );
 };

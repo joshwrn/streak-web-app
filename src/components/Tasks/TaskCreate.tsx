@@ -85,7 +85,7 @@ const StyledInput = styled.input`
   font-size: 1.8rem;
   padding-left: 2rem;
   border-radius: 0.8rem;
-  background-color: ${({ theme }) => theme.main.secondaryBackground};
+  background-color: ${({ theme }) => theme.task.background};
   border: 0.1rem solid ${({ theme }) => theme.main.border};
   ::placeholder {
     color: #f4eeff68;
@@ -97,7 +97,7 @@ const CreateTaskButton = styled.button`
   width: 100%;
   height: 5rem;
   cursor: pointer;
-  background-color: ${({ theme }) => theme.task.background};
+  background-color: ${({ theme }) => theme.main.button};
   border: 0.1rem solid ${({ theme }) => theme.main.border};
   font-size: 2rem;
   border-radius: 0.8rem;

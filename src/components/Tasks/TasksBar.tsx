@@ -104,8 +104,6 @@ const NoTask = styled.div`
   overflow: hidden;
 
   cursor: pointer;
-
-  background: ${({ theme }) => theme.task.gradient};
 `;
 
 const TaskItemsContainer = styled.div`

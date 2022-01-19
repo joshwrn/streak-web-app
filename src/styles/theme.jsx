@@ -1,8 +1,8 @@
 const colors = {
   primary: '#0e0c22',
   secondary: '#191444',
-  taskPrimary: '#3d0b99',
-  taskSecondary: '#4d2482',
+  taskPrimary: '#16132c',
+  taskSecondary: '#221038',
 };
 
 const { primary, secondary, taskPrimary, taskSecondary } = colors;
@@ -21,13 +21,19 @@ const theme = {
     boldFont: 'Epilogue-Bold',
     button: '#de426b',
   },
+  focus: {
+    dial: '#de426b',
+    dialBorder: 'rgba(255, 89, 128, 0.5)',
+    dialBackground:
+      'linear-gradient(218.42deg, #262867 17.02%, #c04781 85.18%)',
+  },
   task: {
     primary: taskPrimary,
     secondary: taskSecondary,
     gradient: `linear-gradient(267.7deg, ${taskSecondary} 0%, ${taskPrimary} 96.4%)`,
     background: taskPrimary,
-    border: 'rgba(255, 255, 255, 0.151)',
-    text: '#E4E4E4',
+    border: 'rgba(255, 255, 255, 0.034)',
+    text: '#ffffff',
   },
   calendar: {
     background: '#190B41',

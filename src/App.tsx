@@ -3,7 +3,7 @@ import { AuthProvider } from './context/AuthContext';
 
 import TopBar from './components/TopBar/TopBar';
 import BottomSection from './components/BottomBar/BottomSection';
-import Scene from './components/pet/Scene';
+import Scene from './components/Pet/PetScene';
 
 import GlobalStyles from './styles/GlobalStyles';
 import theme from './styles/theme';

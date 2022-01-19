@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 import TasksBar from '../Tasks/TasksBar';
 import Focus from '../Focus/Focus';
-import CreateNewBar from '../Tasks/CreateTask';
+import CreateNewBar from '../Tasks/TaskCreate';
 import FilterMenu from './FilterMenu';
 import EditMenu from './EditMenu';
 
@@ -10,51 +10,85 @@ import { HiOutlineArrowNarrowLeft } from 'react-icons/hi';
 import { IoCreateOutline } from 'react-icons/io5';
 
 import styled from 'styled-components';
+import { AnimatePresence, motion } from 'framer-motion';
 
 type FilterTypes = 'Active' | 'Completed';
+
+interface CenterProps {
+  page: string;
+  setPage: (arg: string) => void;
+}
+
+const Center = ({ page, setPage }: CenterProps) => {
+  return (
+    <HeaderCenter>
+      <HeaderText>{page}</HeaderText>
+      <NavContainer>
+        <PageIcon
+          active={
+            page === 'Tasks' || page === 'Stats' || page === 'Create'
+              ? true
+              : false
+          }
+          onClick={() => setPage('Tasks')}
+        />
+        <PageIcon
+          active={page === 'Focus' ? true : false}
+          onClick={() => setPage('Focus')}
+        />
+      </NavContainer>
+    </HeaderCenter>
+  );
+};
 
 const BottomSection = () => {
   const [page, setPage] = useState('Tasks');
   const [filter, setFilter] = useState<FilterTypes>('Active');
   return (
     <Container>
-      <Header>
-        {(page === 'Stats' || page === 'Create') && (
-          <Arrow size={30} onClick={() => setPage('Tasks')} />
+      <AnimatePresence initial={false} exitBeforeEnter>
+        {page !== 'Focus' ? (
+          <Header
+            variants={headerVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            key="Tasks"
+            custom={page}
+          >
+            {(page === 'Stats' || page === 'Create') && (
+              <Arrow size={30} onClick={() => setPage('Tasks')} />
+            )}
+            {page === 'Tasks' && (
+              <FilterContainer>
+                <FilterMenu filter={filter} setFilter={setFilter} />
+              </FilterContainer>
+            )}
+            <Center page={page} setPage={setPage} />
+            <HeaderRight>
+              {page === 'Tasks' && (
+                <CreateIcon
+                  as={IoCreateOutline}
+                  size={28}
+                  onClick={() => setPage('Create')}
+                />
+              )}
+              {page === 'Stats' && <EditMenu />}
+            </HeaderRight>
+          </Header>
+        ) : (
+          <Header
+            variants={headerVariants}
+            initial="initial"
+            animate="animate"
+            exit="exit"
+            key="Focus"
+            custom={page}
+          >
+            <Center page={page} setPage={setPage} />
+          </Header>
         )}
-        {page === 'Tasks' && (
-          <FilterContainer>
-            <FilterMenu filter={filter} setFilter={setFilter} />
-          </FilterContainer>
-        )}
-        <HeaderCenter>
-          <HeaderText>{page}</HeaderText>
-          <NavContainer>
-            <PageIcon
-              active={
-                page === 'Tasks' || page === 'Stats' || page === 'Create'
-                  ? true
-                  : false
-              }
-              onClick={() => setPage('Tasks')}
-            />
-            <PageIcon
-              active={page === 'Focus' ? true : false}
-              onClick={() => setPage('Focus')}
-            />
-          </NavContainer>
-        </HeaderCenter>
-        <HeaderRight>
-          {page === 'Tasks' && (
-            <CreateIcon
-              as={IoCreateOutline}
-              size={28}
-              onClick={() => setPage('Create')}
-            />
-          )}
-          {page === 'Stats' && <EditMenu />}
-        </HeaderRight>
-      </Header>
+      </AnimatePresence>
       <Content>
         {(page === 'Tasks' || page === 'Stats') && (
           <TasksBar key={1} setPage={setPage} page={page} filter={filter} />
@@ -64,6 +98,28 @@ const BottomSection = () => {
       </Content>
     </Container>
   );
+};
+
+const headerVariants = {
+  initial: (page: string) => ({
+    opacity: 0,
+    x: page === 'Focus' ? '50vw' : '-50vw',
+  }),
+  animate: {
+    opacity: 1,
+    x: 0,
+    transition: {
+      x: { type: 'spring', damping: 15 },
+      opacity: { duration: 0.3 },
+    },
+  },
+  exit: (page: string) => ({
+    opacity: 0,
+    x: page === 'Focus' ? '50vw' : '-50vw',
+    transition: {
+      duration: 0.1,
+    },
+  }),
 };
 
 const HeaderRight = styled.div`
@@ -100,7 +156,7 @@ const Content = styled.div`
   height: 50vh;
 `;
 
-const Header = styled.div`
+const Header = styled(motion.div)`
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
   align-items: center;

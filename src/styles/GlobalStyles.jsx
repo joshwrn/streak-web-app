@@ -22,7 +22,7 @@ body {
   overflow: hidden;
   width: 100vw;
   height: 100vh;
-  background-color: ${({ theme }) => theme.main.background};
+  background-color: #242427;
   z-index: -3;
   transition: background-color 0.5s ease-in-out;
 }

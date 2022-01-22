@@ -32,7 +32,9 @@ const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  width: 100%;
+  justify-content: center;
+  width: 100vw;
+  height: 100vh;
 `;
 
 const StyledApp = styled.div`
@@ -41,7 +43,11 @@ const StyledApp = styled.div`
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  max-width: 50rem;
+  overflow: hidden;
+  border-radius: 1.8rem;
+  max-width: 42.8rem;
+  background-color: ${({ theme }) => theme.main.background};
+  max-height: 92.6rem;
 `;
 
 export default App;

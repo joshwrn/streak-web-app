@@ -1,16 +1,16 @@
 {
   "files": {
-    "main.js": "/streak-web-app/static/js/main.4edfbdef.js",
-    "static/media/Epilogue-Bold.ttf": "/streak-web-app/static/media/Epilogue-Bold.3007dd969785359d4f4d.ttf",
-    "static/media/trophy-gold.png": "/streak-web-app/static/media/trophy-gold.f4f13cc780047bfb96da.png",
-    "static/media/cake.png": "/streak-web-app/static/media/cake.bf9a1da29791e8a68f63.png",
-    "static/media/sub_SE.png": "/streak-web-app/static/media/sub_SE.b55d2ad268c715331dde.png",
-    "static/media/pancakes_NW.png": "/streak-web-app/static/media/pancakes_NW.121b03c46dde41dff4d7.png",
-    "static/media/sundae_NW.png": "/streak-web-app/static/media/sundae_NW.2094b256d096425e8746.png",
-    "index.html": "/streak-web-app/index.html",
-    "main.4edfbdef.js.map": "/streak-web-app/static/js/main.4edfbdef.js.map"
+    "main.js": "/static/js/main.005b1a92.js",
+    "static/media/Epilogue-Bold.ttf": "/static/media/Epilogue-Bold.3007dd969785359d4f4d.ttf",
+    "static/media/trophy-gold.png": "/static/media/trophy-gold.f4f13cc780047bfb96da.png",
+    "static/media/cake.png": "/static/media/cake.bf9a1da29791e8a68f63.png",
+    "static/media/sub_SE.png": "/static/media/sub_SE.b55d2ad268c715331dde.png",
+    "static/media/pancakes_NW.png": "/static/media/pancakes_NW.121b03c46dde41dff4d7.png",
+    "static/media/sundae_NW.png": "/static/media/sundae_NW.2094b256d096425e8746.png",
+    "index.html": "/index.html",
+    "main.005b1a92.js.map": "/static/js/main.005b1a92.js.map"
   },
   "entrypoints": [
-    "static/js/main.4edfbdef.js"
+    "static/js/main.005b1a92.js"
   ]
 }

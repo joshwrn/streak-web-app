@@ -1,7 +1,7 @@
 {
   "files": {
-    "main.js": "/streak-web-app/static/js/main.8a22ec8e.js",
-    "static/js/19.dc20130b.chunk.js": "/streak-web-app/static/js/19.dc20130b.chunk.js",
+    "main.js": "/streak-web-app/static/js/main.e2a32ffc.js",
+    "static/js/19.54379ce4.chunk.js": "/streak-web-app/static/js/19.54379ce4.chunk.js",
     "static/js/626.1aa04c04.chunk.js": "/streak-web-app/static/js/626.1aa04c04.chunk.js",
     "static/media/Epilogue-Bold.ttf": "/streak-web-app/static/media/Epilogue-Bold.3007dd969785359d4f4d.ttf",
     "static/media/trophy-gold.png": "/streak-web-app/static/media/trophy-gold.f4f13cc780047bfb96da.png",
@@ -10,11 +10,11 @@
     "static/media/pancakes_NW.png": "/streak-web-app/static/media/pancakes_NW.121b03c46dde41dff4d7.png",
     "static/media/sundae_NW.png": "/streak-web-app/static/media/sundae_NW.2094b256d096425e8746.png",
     "index.html": "/streak-web-app/index.html",
-    "main.8a22ec8e.js.map": "/streak-web-app/static/js/main.8a22ec8e.js.map",
-    "19.dc20130b.chunk.js.map": "/streak-web-app/static/js/19.dc20130b.chunk.js.map",
+    "main.e2a32ffc.js.map": "/streak-web-app/static/js/main.e2a32ffc.js.map",
+    "19.54379ce4.chunk.js.map": "/streak-web-app/static/js/19.54379ce4.chunk.js.map",
     "626.1aa04c04.chunk.js.map": "/streak-web-app/static/js/626.1aa04c04.chunk.js.map"
   },
   "entrypoints": [
-    "static/js/main.8a22ec8e.js"
+    "static/js/main.e2a32ffc.js"
   ]
 }

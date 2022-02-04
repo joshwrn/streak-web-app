@@ -7,7 +7,6 @@ import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 import donut from '../../assets/food/donutSprinkles_NE.png';
-import TaskStatsFood from './TaskStatsFood';
 
 const placeholder = {
   task: '',

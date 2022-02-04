@@ -1,36 +1,40 @@
-import { Suspense, useState, useEffect } from 'react';
+import { Suspense, useState, useEffect, lazy } from 'react';
 
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, ContactShadows } from '@react-three/drei';
 import { Debug, Physics, usePlane, useBox } from '@react-three/cannon';
 
-import Panda from './PetPanda';
-import DonutSprinkles from '../food/DonutSprinkles';
+//import Panda from './PetPandaTs';
+
+import { ActionName } from './pandaTypes';
 
 import styled from 'styled-components';
 
-function BoxTrigger({ args, onCollide, position }) {
-  const [ref] = useBox(() => ({ isTrigger: true, args, position, onCollide }));
-  return (
-    <mesh {...{ position, ref }}>
-      <boxBufferGeometry args={args} />
-      <meshStandardMaterial wireframe transparent opacity={0} />
-    </mesh>
-  );
-}
+// function BoxTrigger({ args, onCollide, position }) {
+//   const [ref] = useBox(() => ({ isTrigger: true, args, position, onCollide }));
+//   return (
+//     <mesh {...{ position, ref }}>
+//       <boxBufferGeometry args={args} />
+//       <meshStandardMaterial wireframe transparent opacity={0} />
+//     </mesh>
+//   );
+// }
 
-function Plane(props) {
-  const [ref] = usePlane(() => ({ rotation: [-Math.PI / 2, 0, 0], ...props }));
-  return (
-    <mesh ref={ref} receiveShadow>
-      <planeGeometry args={[1000, 1000]} />
-      <shadowMaterial color="#ff0000" transparent opacity={1} />
-    </mesh>
-  );
-}
+// function Plane(props) {
+//   const [ref] = usePlane(() => ({ rotation: [-Math.PI / 2, 0, 0], ...props }));
+//   return (
+//     <mesh ref={ref} receiveShadow>
+//       <planeGeometry args={[1000, 1000]} />
+//       <shadowMaterial color="#ff0000" transparent opacity={1} />
+//     </mesh>
+//   );
+// }
+
+// @ts-ignore
+const Panda = lazy(() => import('./PetPandaTs'));
 
 const PetScene = () => {
-  const [currentAction, setCurrentAction] = useState('Idle');
+  const [currentAction, setCurrentAction] = useState<ActionName>('Idle');
 
   useEffect(() => {
     if (currentAction === 'Eat') {
@@ -55,7 +59,7 @@ const PetScene = () => {
             scale={[18, 18, 18]}
             position={[0, -35, -20]}
             rotation={[0, 0.37, 0]}
-            currentAction={currentAction}
+            // currentAction={currentAction}
           />
           <ContactShadows
             opacity={0.6}
@@ -68,7 +72,7 @@ const PetScene = () => {
             resolution={256}
           />
           <Physics gravity={[0, -50, 0]}>
-            <Plane position={[0, -35, 0]} />
+            {/* <Plane position={[0, -35, 0]} /> */}
             {/* <DonutSprinkles position={[25, 50, 4]} />
             <BoxTrigger
               args={[70, 10, 40]}

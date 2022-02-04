@@ -1,0 +1,8 @@
+Model Information:
+* title:	Bambu the Red Panda - Wild Series
+* source:	https://sketchfab.com/3d-models/bambu-the-red-panda-wild-series-e7761ca18be74d79a79c344d7120196d
+* author:	Omabuarts Studio (https://sketchfab.com/omabuarts)
+
+Model License:
+* license type:	SKETCHFAB Standard (https://sketchfab.com/licenses)
+* requirements:	Under basic restrictions, use worldwide, on all types of media, commercially or not, and in all types of derivative works

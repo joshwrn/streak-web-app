@@ -1,16 +1,16 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import { TaskProps } from './types';
 import Food from './TaskFood';
-import { useAuth } from '../../context/AuthContext';
-
-import { FiCircle, FiCheckCircle } from 'react-icons/fi';
 
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
+import { incrementByAmount, decrementByAmount } from '../../utils/xpSlice';
+import { setPage } from '../../app/pageSlice';
+import { markTaskAsCompleted } from './taskSlice';
+import { useAppDispatch } from '../../app/hooks';
+
 interface TaskComponentProps extends TaskProps {
-  setTasks: (arg: (prev: TaskProps[]) => TaskProps[]) => void;
-  setPage: (arg: string) => void;
   setActiveTask: (arg: string) => void;
   index: number;
 }
@@ -19,37 +19,27 @@ const Task = ({
   task,
   completed,
   streak,
-  setTasks,
-  setPage,
   setActiveTask,
   index,
 }: TaskComponentProps) => {
   const [isCompleted, setIsCompleted] = useState(completed);
-  const { setTotalXP } = useAuth();
+  const dispatch = useAppDispatch();
 
   const handleOpenTask = () => {
-    setPage('Stats');
+    dispatch(setPage('Stats'));
     setActiveTask(task);
   };
 
   const handleComplete = () => {
     setIsCompleted(!isCompleted);
-    setTasks((prev: TaskProps[]) => {
-      return prev.map((item: TaskProps) => {
-        if (item.task === task) {
-          return {
-            ...item,
-            completed: !item.completed,
-            streak: item.completed ? item.streak - 1 : item.streak + 1,
-          };
-        }
-        return item;
-      });
-    });
+    dispatch(markTaskAsCompleted(task));
+
     // set total XP
-    setTotalXP((prev: number) =>
-      completed ? prev - streak : prev + streak + 1
-    );
+    if (!completed) {
+      dispatch(incrementByAmount(streak));
+    } else if (completed) {
+      dispatch(decrementByAmount(streak));
+    }
   };
 
   return (
@@ -61,6 +51,7 @@ const Task = ({
       whileTap={{ scale: 0.95 }}
       custom={index}
       layout={true}
+      data-testid={task}
     >
       <StartContainer>
         <Food streak={streak} />
@@ -104,14 +95,6 @@ const EndContainer = styled.div`
   cursor: pointer;
 `;
 
-const CheckIcon = styled.div`
-  color: ${({ theme }) => theme.task.text};
-  /* margin-right: 2.5rem; */
-  position: relative;
-  z-index: 2;
-  cursor: pointer;
-`;
-
 const Number = styled.div<{ completed: TaskProps['completed'] }>`
   position: relative;
   z-index: 1;
@@ -122,7 +105,6 @@ const Number = styled.div<{ completed: TaskProps['completed'] }>`
 
   background-color: rgba(255, 255, 255, 0.075);
   border-radius: 100%;
-  /* border: 2px solid rgba(255, 255, 255, 0.034); */
 
   width: 4rem;
   height: 4rem;
@@ -143,10 +125,8 @@ const TaskText = styled.div<{ completed: TaskProps['completed'] }>`
   z-index: 1;
 
   font-size: 1.7rem;
-  /* font-weight: bold; */
   text-decoration: ${({ completed }) => (completed ? 'line-through' : 'none')};
   color: ${({ theme }) => theme.task.text};
-  /* font-family: ${({ theme }) => theme.main.boldFont}; */
 
   width: 100%;
   margin-left: 3.5rem;

@@ -1,7 +1,3 @@
-import React, { useEffect } from 'react';
-
-import { useAuth } from '../../context/AuthContext';
-
 import PrimaryButton from '../reusable/PrimaryButton';
 
 import trophy from '../../assets/3d-icons/trophy-gold.png';
@@ -11,6 +7,7 @@ import star from '../../assets/3d-icons/star-dynamic-gradient.png';
 
 import { motion } from 'framer-motion';
 import styled, { useTheme } from 'styled-components';
+import { useAppSelector } from '../../app/hooks';
 
 interface Props {
   setLevelUp: (arg: boolean) => void;
@@ -18,7 +15,7 @@ interface Props {
 }
 
 const LevelUp = ({ setLevelUp, currentLevel }: Props) => {
-  const { totalXP } = useAuth();
+  const totalXP = useAppSelector((state) => state.totalXP.totalXP);
   const theme = useTheme();
 
   return (

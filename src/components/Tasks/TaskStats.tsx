@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 
 import { TaskProps } from './types';
-import { useAuth } from '../../context/AuthContext';
 
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
 import donut from '../../assets/food/donutSprinkles_NE.png';
+import { useAppSelector } from '../../app/hooks';
 
 const placeholder = {
   task: '',
@@ -14,15 +14,14 @@ const placeholder = {
   streak: 0,
 };
 
-interface TaskInfo {
+interface TaskInfoTypes {
   activeTask: string;
-  setPage: (arg: string) => void;
 }
 
-const TaskStats = ({ activeTask, setPage }: TaskInfo) => {
+const TaskStats = ({ activeTask }: TaskInfoTypes) => {
   const [currentTask, setCurrentTask] = useState<TaskProps>(placeholder);
   const [calendar, setCalendar] = useState<string[]>([]);
-  const { allTasks } = useAuth();
+  const allTasks = useAppSelector((state) => state.tasks.tasks);
 
   useEffect(() => {
     if (calendar.length === 0) {

@@ -1,6 +1,5 @@
-import React from 'react';
-
-import { useAuth } from '../../context/AuthContext';
+import { incrementByAmount, decrementByAmount } from '../../utils/xpSlice';
+import { useAppDispatch } from '../../app/hooks';
 
 import styled from 'styled-components';
 import PrimaryButton from '../reusable/PrimaryButton';
@@ -22,13 +21,13 @@ const FocusFinish = ({
   finish,
   time,
 }: Props) => {
-  const { setTotalXP } = useAuth();
+  const dispatch = useAppDispatch();
 
   const handleClaim = () => {
     if (finish === 'finish') {
-      setTotalXP((prev) => prev + startTime);
+      dispatch(incrementByAmount(time));
     } else {
-      setTotalXP((prev) => prev - time);
+      dispatch(decrementByAmount(time));
     }
     setFinish('none');
     setTime(startTime);

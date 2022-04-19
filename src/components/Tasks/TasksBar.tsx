@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { useAuth } from '../../context/AuthContext';
+import { useState } from 'react';
+import { useAppSelector } from '../../app/hooks';
 
 import Task from './TaskItem';
 import TaskStats from './TaskStats';
@@ -11,29 +11,14 @@ import { motion, AnimatePresence } from 'framer-motion';
 
 type FilterTypes = 'Active' | 'Completed';
 
-const TasksBar = ({
-  setPage,
-  page,
-  filter,
-}: {
-  setPage: (arg: string) => void;
+type propTypes = {
   filter: FilterTypes;
-  page: string;
-}) => {
-  const { setAllTasks, allTasks } = useAuth();
-  // const [filteredTasks, setFilteredTasks] = useState<TaskProps[]>([]);
-  const [activeTask, setActiveTask] = useState<string>('');
+};
 
-  // useEffect(() => {
-  //   const filtered = allTasks.filter((task) => {
-  //     if (filter === 'Active') {
-  //       return !task.completed;
-  //     } else if (filter === 'Completed') {
-  //       return task.completed;
-  //     }
-  //   });
-  //   setFilteredTasks(filtered);
-  // }, [filter, allTasks]);
+const TasksBar = ({ filter }: propTypes) => {
+  const page = useAppSelector((state) => state.page.page);
+  const allTasks = useAppSelector((state) => state.tasks.tasks);
+  const [activeTask, setActiveTask] = useState<string>('');
 
   return (
     <InnerContainer
@@ -48,7 +33,7 @@ const TasksBar = ({
       <AnimatePresence>
         {/* TASK STATS */}
         {page === 'Stats' ? (
-          <TaskStats activeTask={activeTask} setPage={setPage} />
+          <TaskStats activeTask={activeTask} />
         ) : (
           <TaskItemsContainer>
             <AnimatePresence>
@@ -59,8 +44,6 @@ const TasksBar = ({
                     task={item.task}
                     completed={item.completed}
                     streak={item.streak}
-                    setTasks={setAllTasks}
-                    setPage={setPage}
                     setActiveTask={setActiveTask}
                     index={index}
                   />

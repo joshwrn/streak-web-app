@@ -1,5 +1,8 @@
 import { useState } from 'react';
 
+import { setPage, pageTypes } from '../../app/pageSlice';
+import { useAppDispatch, useAppSelector } from '../../app/hooks';
+
 import TasksBar from '../Tasks/TasksBar';
 import Focus from '../Focus/Focus';
 import CreateNewBar from '../Tasks/TaskCreate';
@@ -14,12 +17,14 @@ import { AnimatePresence, motion } from 'framer-motion';
 
 type FilterTypes = 'Active' | 'Completed';
 
-interface CenterProps {
-  page: string;
-  setPage: (arg: string) => void;
-}
+const Center = () => {
+  const page = useAppSelector((state) => state.page.page);
+  const dispatch = useAppDispatch();
 
-const Center = ({ page, setPage }: CenterProps) => {
+  const handlePageChange = (selectedPage: pageTypes) => {
+    dispatch(setPage(selectedPage));
+  };
+
   return (
     <HeaderCenter>
       <HeaderText>{page}</HeaderText>
@@ -30,11 +35,11 @@ const Center = ({ page, setPage }: CenterProps) => {
               ? true
               : false
           }
-          onClick={() => setPage('Tasks')}
+          onClick={() => handlePageChange('Tasks')}
         />
         <PageIcon
           active={page === 'Focus' ? true : false}
-          onClick={() => setPage('Focus')}
+          onClick={() => handlePageChange('Focus')}
         />
       </NavContainer>
     </HeaderCenter>
@@ -42,8 +47,15 @@ const Center = ({ page, setPage }: CenterProps) => {
 };
 
 const BottomSection = () => {
-  const [page, setPage] = useState('Tasks');
   const [filter, setFilter] = useState<FilterTypes>('Active');
+
+  const page = useAppSelector((state) => state.page.page);
+  const dispatch = useAppDispatch();
+
+  const handlePageChange = (selectedPage: pageTypes) => {
+    dispatch(setPage(selectedPage));
+  };
+
   return (
     <Container>
       <AnimatePresence initial={false} exitBeforeEnter>
@@ -57,20 +69,21 @@ const BottomSection = () => {
             custom={page}
           >
             {(page === 'Stats' || page === 'Create') && (
-              <Arrow size={30} onClick={() => setPage('Tasks')} />
+              <Arrow size={30} onClick={() => handlePageChange('Tasks')} />
             )}
             {page === 'Tasks' && (
               <FilterContainer>
                 <FilterMenu filter={filter} setFilter={setFilter} />
               </FilterContainer>
             )}
-            <Center page={page} setPage={setPage} />
+            <Center />
             <HeaderRight>
               {page === 'Tasks' && (
                 <CreateIcon
+                  data-testid="createNewBtn"
                   as={IoCreateOutline}
                   size={28}
-                  onClick={() => setPage('Create')}
+                  onClick={() => handlePageChange('Create')}
                 />
               )}
               {page === 'Stats' && <EditMenu />}
@@ -85,16 +98,16 @@ const BottomSection = () => {
             key="Focus"
             custom={page}
           >
-            <Center page={page} setPage={setPage} />
+            <Center />
           </Header>
         )}
       </AnimatePresence>
       <Content>
         {(page === 'Tasks' || page === 'Stats') && (
-          <TasksBar key={1} setPage={setPage} page={page} filter={filter} />
+          <TasksBar key={1} filter={filter} />
         )}
         {page === 'Focus' && <Focus key={2} />}
-        {page === 'Create' && <CreateNewBar key={3} setPage={setPage} />}
+        {page === 'Create' && <CreateNewBar key={3} />}
       </Content>
     </Container>
   );

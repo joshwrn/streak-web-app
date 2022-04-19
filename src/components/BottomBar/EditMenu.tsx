@@ -8,9 +8,6 @@ import { motion, AnimatePresence } from 'framer-motion';
 const EditMenu = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
-  const handleFilter = () => {
-    setIsOpen(false);
-  };
   return (
     <AnimatePresence>
       <HeaderContainer

@@ -1,6 +1,3 @@
-import { useState } from 'react';
-import { AuthProvider } from './context/AuthContext';
-
 import TopBar from './components/TopBar/TopBar';
 import BottomSection from './components/BottomBar/BottomSection';
 import Scene from './components/Pet/PetScene';
@@ -11,20 +8,17 @@ import { ThemeProvider } from 'styled-components';
 import styled from 'styled-components';
 
 function App() {
-  const [page, setPage] = useState('Tasks');
   return (
-    <AuthProvider>
-      <ThemeProvider theme={theme}>
-        <GlobalStyles />
-        <Container>
-          <StyledApp>
-            <TopBar />
-            <Scene />
-            <BottomSection />
-          </StyledApp>
-        </Container>
-      </ThemeProvider>
-    </AuthProvider>
+    <ThemeProvider theme={theme}>
+      <GlobalStyles />
+      <Container>
+        <StyledApp>
+          <TopBar />
+          <Scene />
+          <BottomSection />
+        </StyledApp>
+      </Container>
+    </ThemeProvider>
   );
 }
 

@@ -1,7 +1,9 @@
 import { useState, useEffect } from 'react';
 import LevelUp from '../LevelUp/LevelUp';
 import Menu from '../Menu/Menu';
-import { useAuth } from '../../context/AuthContext';
+
+import { useAppSelector } from '../../app/hooks';
+
 import { progressToNextLevel } from '../../utils/levelSystem';
 
 import { IoIosMenu } from 'react-icons/io';
@@ -10,41 +12,6 @@ import { IoSettingsOutline } from 'react-icons/io5';
 
 import styled from 'styled-components';
 import { motion, useAnimation, AnimatePresence } from 'framer-motion';
-
-const variants = {
-  initial: {
-    width: 0,
-  },
-  animate: (percent: number) => ({
-    width: `${percent}%`,
-    transition: {
-      width: { type: 'spring', damping: 30 },
-    },
-  }),
-};
-
-const blurVariants = {
-  initial: {
-    opacity: 0.1,
-    width: 0,
-  },
-  animate: (percent: number) => ({
-    width: `${percent}%`,
-    opacity: 0.5,
-    transition: {
-      opacity: { type: 'spring', damping: 30 },
-      width: { type: 'spring', damping: 30 },
-    },
-  }),
-  stay: (percent: number) => ({
-    width: `${percent}%`,
-    opacity: 0.1,
-    transition: {
-      opacity: { type: 'spring', damping: 30 },
-      width: { type: 'spring', damping: 30 },
-    },
-  }),
-};
 
 const TopBar = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -55,7 +22,7 @@ const TopBar = () => {
   const [percent, setPercent] = useState<number>(-1);
   const [levelUp, setLevelUp] = useState<boolean>(false);
 
-  const { totalXP } = useAuth();
+  const totalXP = useAppSelector((state) => state.totalXP.totalXP);
   const blurControl = useAnimation();
 
   useEffect(() => {
@@ -130,6 +97,41 @@ const TopBar = () => {
       />
     </Container>
   );
+};
+
+const variants = {
+  initial: {
+    width: 0,
+  },
+  animate: (percent: number) => ({
+    width: `${percent}%`,
+    transition: {
+      width: { type: 'spring', damping: 30 },
+    },
+  }),
+};
+
+const blurVariants = {
+  initial: {
+    opacity: 0.1,
+    width: 0,
+  },
+  animate: (percent: number) => ({
+    width: `${percent}%`,
+    opacity: 0.5,
+    transition: {
+      opacity: { type: 'spring', damping: 30 },
+      width: { type: 'spring', damping: 30 },
+    },
+  }),
+  stay: (percent: number) => ({
+    width: `${percent}%`,
+    opacity: 0.1,
+    transition: {
+      opacity: { type: 'spring', damping: 30 },
+      width: { type: 'spring', damping: 30 },
+    },
+  }),
 };
 
 const StatContainer = styled.div`

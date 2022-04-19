@@ -2,7 +2,7 @@ import { Suspense, useState, useEffect, lazy } from 'react';
 
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, ContactShadows } from '@react-three/drei';
-import { Debug, Physics, usePlane, useBox } from '@react-three/cannon';
+import { Physics } from '@react-three/cannon';
 
 //import Panda from './PetPandaTs';
 

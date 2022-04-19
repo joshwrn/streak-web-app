@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 
-import { useAuth } from '../../context/AuthContext';
-
 import FocusDial from './FocusDial';
 import FocusFinish from './FocusFinish';
 import PrimaryButton from '../reusable/PrimaryButton';

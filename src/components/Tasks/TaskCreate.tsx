@@ -1,30 +1,22 @@
 import { useState } from 'react';
-import { TaskProps } from './types';
 
-import { useAuth } from '../../context/AuthContext';
+import { addTask } from './taskSlice';
+import { setPage } from '../../app/pageSlice';
+import { useAppDispatch } from '../../app/hooks';
 
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const CreateNewBar = ({ setPage }: { setPage: (arg: string) => void }) => {
+const CreateNewBar = () => {
   const [input, setInput] = useState<string>('');
-  const { setAllTasks } = useAuth();
+  const dispatch = useAppDispatch();
 
   const handleCreateNew = () => {
     const trimmedInput = input.trim();
     if (trimmedInput.length < 3) return;
 
-    setAllTasks((prev: TaskProps[]) => {
-      return [
-        ...prev,
-        {
-          task: trimmedInput,
-          completed: false,
-          streak: 0,
-        },
-      ];
-    });
-    setPage('Tasks');
+    dispatch(addTask({ task: trimmedInput, completed: false, streak: 0 }));
+    dispatch(setPage('Tasks'));
   };
 
   return (

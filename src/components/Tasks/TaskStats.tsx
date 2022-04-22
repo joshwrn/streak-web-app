@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { TaskProps } from './types';
+import { TaskProps } from '../../types/types';
 
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
@@ -24,15 +24,12 @@ const TaskStats = ({ activeTask }: TaskInfoTypes) => {
   const allTasks = useAppSelector((state) => state.tasks.tasks);
 
   useEffect(() => {
+    // placeholder calendar for now
     if (calendar.length === 0) {
       const arr = [];
       for (let i = 0; i < 91; i++) {
         const random = Math.floor(Math.random() * 3);
-        if (random === 0) {
-          arr.push('false');
-        } else {
-          arr.push('true');
-        }
+        random === 0 ? arr.push('false') : arr.push('true');
       }
       setCalendar(arr);
     }
@@ -40,9 +37,7 @@ const TaskStats = ({ activeTask }: TaskInfoTypes) => {
 
   useEffect(() => {
     const task = allTasks.find((item) => item.task === activeTask);
-    if (task) {
-      setCurrentTask(task);
-    }
+    task && setCurrentTask(task);
   }, [activeTask]);
 
   return (

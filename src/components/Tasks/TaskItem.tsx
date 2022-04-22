@@ -1,13 +1,13 @@
 import { useState } from 'react';
-import { TaskProps } from './types';
+import { TaskProps } from '../../types/types';
 import Food from './TaskFood';
 
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
 
-import { incrementByAmount, decrementByAmount } from '../../utils/xpSlice';
-import { setPage } from '../../app/pageSlice';
-import { markTaskAsCompleted } from './taskSlice';
+import { incrementByAmount, decrementByAmount } from '../../slices/xpSlice';
+import { setPage } from '../../slices/pageSlice';
+import { markTaskAsCompleted } from '../../slices/taskSlice';
 import { useAppDispatch } from '../../app/hooks';
 
 interface TaskComponentProps extends TaskProps {

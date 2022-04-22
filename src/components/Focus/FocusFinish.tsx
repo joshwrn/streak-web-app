@@ -1,4 +1,4 @@
-import { incrementByAmount, decrementByAmount } from '../../utils/xpSlice';
+import { incrementByAmount, decrementByAmount } from '../../slices/xpSlice';
 import { useAppDispatch } from '../../app/hooks';
 
 import styled from 'styled-components';

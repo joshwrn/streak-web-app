@@ -1,4 +1,4 @@
-import { TaskProps } from './types';
+import { TaskProps } from '../../types/types';
 
 export const exampleTasks: TaskProps[] = [
   {

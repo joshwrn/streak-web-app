@@ -1,5 +1,6 @@
 import TopBar from './components/TopBar/TopBar';
 import BottomSection from './components/BottomBar/BottomSection';
+import LevelUp from './components/LevelUp/LevelUp';
 import Scene from './components/Pet/PetScene';
 
 import GlobalStyles from './styles/GlobalStyles';
@@ -16,6 +17,7 @@ function App() {
           <TopBar />
           <Scene />
           <BottomSection />
+          <LevelUp />
         </StyledApp>
       </Container>
     </ThemeProvider>
@@ -29,6 +31,7 @@ const Container = styled.div`
   justify-content: center;
   width: 100vw;
   height: 100vh;
+  position: relative;
 `;
 
 const StyledApp = styled.div`

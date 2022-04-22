@@ -1,5 +1,4 @@
 import { useState, useEffect } from 'react';
-import LevelUp from '../LevelUp/LevelUp';
 import Menu from '../Menu/Menu';
 
 import { useAppSelector } from '../../app/hooks';
@@ -20,17 +19,12 @@ const TopBar = () => {
   const [currentProgress, setCurrentProgress] = useState<number>(-1);
   const [nextLevel, setNextLevel] = useState<number>(-1);
   const [percent, setPercent] = useState<number>(-1);
-  const [levelUp, setLevelUp] = useState<boolean>(false);
 
   const totalXP = useAppSelector((state) => state.totalXP.totalXP);
   const blurControl = useAnimation();
 
   useEffect(() => {
     const totals = progressToNextLevel(totalXP);
-
-    if (totals.currentLevel > currentLevel && currentLevel !== -1) {
-      setLevelUp(true);
-    }
 
     setCurrentLevel(totals.currentLevel);
     setCurrentProgress(totals.currentProgress);
@@ -60,12 +54,7 @@ const TopBar = () => {
           onClick={() => setIsMenuOpen(true)}
         />
       )}
-      <AnimatePresence>
-        {levelUp && (
-          <LevelUp setLevelUp={setLevelUp} currentLevel={currentLevel} />
-        )}
-        {isMenuOpen && <Menu />}
-      </AnimatePresence>
+      <AnimatePresence>{isMenuOpen && <Menu />}</AnimatePresence>
       <MenuSection>
         <StatContainer>
           <Level>Level {currentLevel}</Level>
@@ -90,11 +79,7 @@ const TopBar = () => {
           <TotalBlurBar />
         </LevelBarContainer>
       </MenuSection>
-      <SettingsButton
-        as={IoSettingsOutline}
-        size={28}
-        onClick={() => setLevelUp(true)}
-      />
+      <SettingsButton as={IoSettingsOutline} size={28} />
     </Container>
   );
 };

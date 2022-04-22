@@ -1,3 +1,4 @@
+import { useState, useEffect } from 'react';
 import PrimaryButton from '../reusable/PrimaryButton';
 
 import trophy from '../../assets/3d-icons/trophy-gold.png';
@@ -8,52 +9,68 @@ import star from '../../assets/3d-icons/star-dynamic-gradient.png';
 import { motion } from 'framer-motion';
 import styled, { useTheme } from 'styled-components';
 import { useAppSelector } from '../../app/hooks';
+import { AnimatePresence } from 'framer-motion';
 
-interface Props {
-  setLevelUp: (arg: boolean) => void;
-  currentLevel: number;
-}
+import { progressToNextLevel } from '../../utils/levelSystem';
 
-const LevelUp = ({ setLevelUp, currentLevel }: Props) => {
+const LevelUp = () => {
   const totalXP = useAppSelector((state) => state.totalXP.totalXP);
   const theme = useTheme();
+  const [currentLevel, setCurrentLevel] = useState(-1);
+  const [levelUp, setLevelUp] = useState(false);
+
+  useEffect(() => {
+    const totals = progressToNextLevel(totalXP);
+    setCurrentLevel(totals.currentLevel);
+    if (totals.currentLevel > currentLevel && currentLevel !== -1) {
+      setLevelUp(true);
+    }
+  }, [totalXP]);
+
+  const handleClose = () => {
+    setLevelUp(false);
+  };
 
   return (
-    <Container
-      key="LevelUp"
-      variants={variants}
-      initial={'initial'}
-      animate={'animate'}
-      exit={'exit'}
-      // @ts-ignore
-      custom={theme.main.secondaryBackground}
-    >
-      <InnerContainer>
-        <HeaderContainer>
-          <Header>Level Up!</Header>
-          <SubHeader>Reached level {currentLevel}</SubHeader>
-        </HeaderContainer>
-        <Trophy variants={imageVariants} src={trophy} alt="trophy" />
-        <Details variants={detailsVariants}>
-          <Detail variants={detailVariants}>
-            <DetailIcon src={gift} alt="gift" />
-            <DetailText>3 Rewards</DetailText>
-          </Detail>
-          <Detail variants={detailVariants}>
-            <DetailIcon src={star} alt="gift" />
-            <DetailText>{totalXP} Total XP</DetailText>
-          </Detail>
-          <Detail variants={detailVariants}>
-            <DetailIcon src={medal} alt="gift" />
-            <DetailText>Level {currentLevel}</DetailText>
-          </Detail>
-        </Details>
-        <ButtonContainer>
-          <PrimaryButton name="Continue" onClick={() => setLevelUp(false)} />
-        </ButtonContainer>
-      </InnerContainer>
-      <Gradient />
-    </Container>
+    <AnimatePresence>
+      {levelUp && (
+        <Container
+          key="LevelUp"
+          variants={variants}
+          initial={'initial'}
+          animate={'animate'}
+          exit={'exit'}
+          // @ts-ignore
+          custom={theme.main.secondaryBackground}
+        >
+          <InnerContainer>
+            <HeaderContainer>
+              <Header>Level Up!</Header>
+              <SubHeader>Reached level {currentLevel}</SubHeader>
+            </HeaderContainer>
+            <Trophy variants={imageVariants} src={trophy} alt="trophy" />
+            <Details variants={detailsVariants}>
+              <Detail variants={detailVariants}>
+                <DetailIcon src={gift} alt="gift" />
+                <DetailText>3 Rewards</DetailText>
+              </Detail>
+              <Detail variants={detailVariants}>
+                <DetailIcon src={star} alt="gift" />
+                <DetailText>{totalXP} Total XP</DetailText>
+              </Detail>
+              <Detail variants={detailVariants}>
+                <DetailIcon src={medal} alt="gift" />
+                <DetailText>Level {currentLevel}</DetailText>
+              </Detail>
+            </Details>
+            <ButtonContainer>
+              <PrimaryButton name="Continue" onClick={handleClose} />
+            </ButtonContainer>
+          </InnerContainer>
+          <Gradient />
+        </Container>
+      )}
+    </AnimatePresence>
   );
 };
 
@@ -157,7 +174,8 @@ const Container = styled(motion.div)`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  height: 100vh;
+  height: 100%;
+  max-height: 92.6rem;
   left: 0;
   top: 0;
   background-color: ${({ theme }) => theme.main.background};
@@ -169,17 +187,18 @@ const InnerContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
+  /* justify-content: center; */
+  justify-content: space-evenly;
   width: 100%;
   height: 100%;
-  padding: 8.7rem 0;
-  gap: 8rem;
+  /* gap: 8rem; */
 `;
 
 const Gradient = styled.div`
   position: absolute;
   background: ${({ theme }) => theme.main.gradient};
   width: 125%;
-  height: 50vh;
+  height: 50%;
   top: 10rem;
   z-index: -1;
 `;
@@ -238,7 +257,6 @@ const ButtonContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  height: 100%;
   width: 100%;
 `;
 

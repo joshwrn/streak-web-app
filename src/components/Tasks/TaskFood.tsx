@@ -11,25 +11,18 @@ import pancakes from '../../assets/food/pancakes_NW.png';
 const Food = ({ streak }: { streak: number }) => {
   const [food, setFood] = useState(apple);
   useEffect(() => {
-    if (streak <= 3) {
-      // 3 days
-      setFood(apple);
-    } else if (streak > 3 && streak <= 7) {
-      // one week
-      setFood(pineapple);
-    } else if (streak > 7 && streak <= 14) {
-      // two weeks
-      setFood(sushi);
-    } else if (streak > 14 && streak <= 30) {
-      // three weeks
-      setFood(sundae);
-    } else if (streak > 30 && streak <= 45) {
-      // one month
-      setFood(sub);
-    } else if (streak > 45 && streak <= 60) {
-      // one month
-      setFood(pancakes);
-    }
+    // 3 days
+    if (streak <= 3) return setFood(apple);
+    // one week
+    if (streak > 3 && streak <= 7) return setFood(pineapple);
+    // two weeks
+    if (streak > 7 && streak <= 14) return setFood(sushi);
+    // three weeks
+    if (streak > 14 && streak <= 30) return setFood(sundae);
+    // one month
+    if (streak > 30 && streak <= 45) return setFood(sub);
+    // one month
+    if (streak > 45 && streak <= 60) return setFood(pancakes);
   }, [streak]);
   return <Image src={food} alt="food" />;
 };

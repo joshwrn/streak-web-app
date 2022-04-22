@@ -1,8 +1,8 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 
-import xpReducer from '../utils/xpSlice';
-import taskSlice from '../components/Tasks/taskSlice';
-import pageSlice from './pageSlice';
+import xpReducer from '../slices/xpSlice';
+import taskSlice from '../slices/taskSlice';
+import pageSlice from '../slices/pageSlice';
 
 export const store = configureStore({
   reducer: {

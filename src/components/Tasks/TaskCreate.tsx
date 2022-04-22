@@ -1,7 +1,7 @@
 import { useState } from 'react';
 
-import { addTask } from './taskSlice';
-import { setPage } from '../../app/pageSlice';
+import { addTask } from '../../slices/taskSlice';
+import { setPage } from '../../slices/pageSlice';
 import { useAppDispatch } from '../../app/hooks';
 
 import styled from 'styled-components';

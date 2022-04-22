@@ -1,5 +1,3 @@
-import React, { useState, useEffect } from 'react';
-
 import cake from '../../assets/food/cake.png';
 import CircularProgress from '../reusable/CircularProgress';
 
@@ -24,14 +22,13 @@ const FocusDial = ({
 }: Props) => {
   const handleInterval = (direction: string) => {
     if (start === true) return;
-    if (direction === 'down') {
-      if (startTime > 10) {
-        setStartTime((prev) => prev - 10);
-      }
-    } else {
-      if (startTime < 120) {
-        setStartTime((prev) => prev + 10);
-      }
+
+    if (direction === 'down' && startTime > 10) {
+      return setStartTime((prev) => prev - 10);
+    }
+
+    if (startTime < 120) {
+      return setStartTime((prev) => prev + 10);
     }
   };
 

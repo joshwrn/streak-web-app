@@ -4,7 +4,7 @@ import { useAppSelector } from '../../app/hooks';
 import Task from './TaskItem';
 import TaskStats from './TaskStats';
 
-import { TaskProps } from './types';
+import { TaskProps } from '../../types/types';
 
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';

@@ -6,7 +6,7 @@ import { Physics } from '@react-three/cannon';
 
 //import Panda from './PetPandaTs';
 
-import { ActionName } from './pandaTypes';
+import { ActionName } from '../../types/pandaTypes';
 
 import styled from 'styled-components';
 
@@ -94,6 +94,7 @@ const Gradient = styled.div`
   background: ${({ theme }) => theme.main.gradient};
   width: 125%;
   height: 50vh;
+  max-height: 48.1rem;
   top: 10rem;
   z-index: -1;
 `;
@@ -107,6 +108,7 @@ const ShapesContainer = styled.div`
   /* background: ${({ theme }) => theme.main.gradient}; */
   width: 100%;
   height: 50vh;
+  max-height: 48.1rem;
   canvas {
     width: 100%;
     height: 100%;

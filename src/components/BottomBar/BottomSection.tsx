@@ -1,6 +1,6 @@
 import { useState } from 'react';
 
-import { setPage, pageTypes } from '../../app/pageSlice';
+import { setPage, pageTypes } from '../../slices/pageSlice';
 import { useAppDispatch, useAppSelector } from '../../app/hooks';
 
 import TasksBar from '../Tasks/TasksBar';
@@ -151,8 +151,7 @@ const FilterContainer = styled.div`
   display: flex;
   width: 100%;
   align-items: center;
-
-  z-index: 3;
+  position: relative;
 `;
 
 const Arrow = styled(HiOutlineArrowNarrowLeft)`
@@ -176,6 +175,8 @@ const Header = styled(motion.div)`
   width: 100%;
   max-width: 50rem;
   padding-bottom: 1.5rem;
+  position: relative;
+  z-index: 4;
 `;
 
 const HeaderCenter = styled.div`
@@ -212,7 +213,7 @@ const PageIcon = styled.div<{ active: boolean }>`
 `;
 
 const Container = styled.div`
-  position: absolute;
+  position: relative;
   bottom: 0;
   display: flex;
   flex-direction: column;

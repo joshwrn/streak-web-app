@@ -30,6 +30,7 @@ const Container = styled(motion.div)`
   flex-direction: column;
   position: absolute;
   height: 100vh;
+  max-height: ${({ theme }) => theme.main.maxHeight}rem;
   width: 30rem;
   top: 0;
   left: 0;

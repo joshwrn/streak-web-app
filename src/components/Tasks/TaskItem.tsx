@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { TaskProps } from '../../types/types';
 import Food from './TaskFood';
 
@@ -30,16 +30,15 @@ const Task = ({
     setActiveTask(task);
   };
 
-  const handleComplete = () => {
+  const handleComplete = (e: React.MouseEvent) => {
+    e.stopPropagation();
     setIsCompleted(!isCompleted);
     dispatch(markTaskAsCompleted(task));
 
     // set total XP
-    if (!completed) {
-      dispatch(incrementByAmount(streak));
-    } else if (completed) {
-      dispatch(decrementByAmount(streak));
-    }
+    completed
+      ? dispatch(decrementByAmount(streak))
+      : dispatch(incrementByAmount(streak));
   };
 
   return (
@@ -52,18 +51,14 @@ const Task = ({
       custom={index}
       layout={true}
       data-testid={task}
+      onClick={handleOpenTask}
     >
       <StartContainer>
         <Food streak={streak} />
       </StartContainer>
-      <TaskContainer onClick={handleOpenTask}>
+      <TaskContainer>
         <TaskText completed={isCompleted}>{task}</TaskText>
       </TaskContainer>
-      {/* <CheckIcon
-        onClick={handleComplete}
-        as={isCompleted ? FiCheckCircle : FiCircle}
-        size={25}
-      /> */}
       <EndContainer>
         <Number onClick={handleComplete} completed={isCompleted}>
           <NumberText>{streak}</NumberText>
@@ -77,22 +72,18 @@ const StartContainer = styled.div`
   display: flex;
   align-items: center;
   width: 4rem;
-  cursor: pointer;
 `;
 
 const TaskContainer = styled.div`
   display: flex;
   align-items: center;
   width: 100%;
-  cursor: pointer;
 `;
 
 const EndContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: flex-end;
-
-  cursor: pointer;
 `;
 
 const Number = styled.div<{ completed: TaskProps['completed'] }>`
@@ -140,7 +131,7 @@ const StyledTask = styled(motion.div)`
   align-items: center;
   justify-content: space-between;
   padding: 0 2.5rem;
-
+  cursor: pointer;
   width: 100%;
   height: 7rem;
   border-radius: 1.6rem;

@@ -56,14 +56,12 @@ const TasksBar = ({ filter }: propTypes) => {
               })}
             </AnimatePresence>
             {filter === 'Active' &&
-            allTasks.filter((item: TaskProps) => !item.completed).length ===
-              0 ? (
-              <NoTask>No Active Streaks 😃</NoTask>
-            ) : (
-              filter === 'Completed' &&
+              allTasks.filter((item: TaskProps) => !item.completed).length ===
+                0 && <NoTask>No Active Streaks 😃</NoTask>}
+
+            {filter === 'Completed' &&
               allTasks.filter((item: TaskProps) => item.completed).length ===
-                0 && <NoTask>No Completed Streaks 😬</NoTask>
-            )}
+                0 && <NoTask>No Completed Streaks 😬</NoTask>}
           </TaskItemsContainer>
         )}
       </AnimatePresence>

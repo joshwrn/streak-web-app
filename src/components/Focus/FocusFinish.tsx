@@ -24,11 +24,9 @@ const FocusFinish = ({
   const dispatch = useAppDispatch();
 
   const handleClaim = () => {
-    if (finish === 'finish') {
-      dispatch(incrementByAmount(time));
-    } else {
-      dispatch(decrementByAmount(time));
-    }
+    finish === 'finish'
+      ? dispatch(incrementByAmount(startTime))
+      : dispatch(decrementByAmount(time));
     setFinish('none');
     setTime(startTime);
   };
@@ -59,6 +57,7 @@ const Container = styled.div`
   justify-content: center;
   width: 100%;
   height: 100%;
+  gap: 50px;
 `;
 
 const InnerContainer = styled.div`
@@ -68,7 +67,6 @@ const InnerContainer = styled.div`
   justify-content: center;
   border-radius: 1.8rem;
   width: 100%;
-  height: 100%;
 `;
 
 const Text = styled.p`
@@ -79,8 +77,6 @@ const Text = styled.p`
 
 const ButtonContainer = styled.div`
   display: flex;
-  flex-grow: 1;
-  align-items: flex-end;
   justify-content: center;
 `;
 

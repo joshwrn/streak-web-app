@@ -59,7 +59,7 @@ const BottomSection = () => {
   return (
     <Container>
       <AnimatePresence initial={false} exitBeforeEnter>
-        {page !== 'Focus' ? (
+        {page !== 'Focus' && (
           <Header
             variants={headerVariants}
             initial="initial"
@@ -89,7 +89,8 @@ const BottomSection = () => {
               {page === 'Stats' && <EditMenu />}
             </HeaderRight>
           </Header>
-        ) : (
+        )}
+        {page === 'Focus' && (
           <Header
             variants={headerVariants}
             initial="initial"
@@ -135,6 +136,45 @@ const headerVariants = {
   }),
 };
 
+const Container = styled.div`
+  position: relative;
+  bottom: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  height: 50vh;
+  padding: 0 3rem;
+  max-height: ${({ theme }) => theme.main.maxHeight};
+`;
+
+const Content = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+`;
+
+const Header = styled(motion.div)`
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  align-items: center;
+  width: 100%;
+  max-width: 50rem;
+  padding-bottom: 1.5rem;
+  position: relative;
+  z-index: 4;
+`;
+
+const HeaderCenter = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  grid-column: 2 / 3;
+`;
+
 const HeaderRight = styled.div`
   display: flex;
   align-items: center;
@@ -160,33 +200,6 @@ const Arrow = styled(HiOutlineArrowNarrowLeft)`
   cursor: pointer;
 `;
 
-const Content = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: center;
-  width: 100%;
-  height: 50vh;
-`;
-
-const Header = styled(motion.div)`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
-  align-items: center;
-  width: 100%;
-  max-width: 50rem;
-  padding-bottom: 1.5rem;
-  position: relative;
-  z-index: 4;
-`;
-
-const HeaderCenter = styled.div`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  grid-column: 2 / 3;
-`;
-
 const HeaderText = styled.h1`
   font-size: 2rem;
   font-weight: bold;
@@ -210,17 +223,6 @@ const PageIcon = styled.div<{ active: boolean }>`
   border-radius: 100%;
   background-color: ${({ theme }) => theme.main.secondaryText};
   opacity: ${({ active }) => (active ? 1 : 0.5)};
-`;
-
-const Container = styled.div`
-  position: relative;
-  bottom: 0;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-  height: 50vh;
-  padding: 0 3rem;
 `;
 
 export default BottomSection;

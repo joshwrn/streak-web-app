@@ -94,7 +94,7 @@ const Gradient = styled.div`
   background: ${({ theme }) => theme.main.gradient};
   width: 125%;
   height: 50vh;
-  max-height: 48.1rem;
+  max-height: ${({ theme }) => theme.main.maxHeight / 2}rem;
   top: 10rem;
   z-index: -1;
 `;
@@ -105,10 +105,9 @@ const ShapesContainer = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
-  /* background: ${({ theme }) => theme.main.gradient}; */
   width: 100%;
   height: 50vh;
-  max-height: 48.1rem;
+  max-height: ${({ theme }) => theme.main.maxHeight / 2}rem;
   canvas {
     width: 100%;
     height: 100%;

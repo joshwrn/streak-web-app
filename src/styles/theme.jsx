@@ -20,6 +20,7 @@ const theme = {
     lightText: 'rgba(255, 255, 255, 0.404)',
     boldFont: 'Epilogue-Bold',
     button: '#de426b',
+    maxHeight: 92.6,
   },
   focus: {
     dial: '#de426b',

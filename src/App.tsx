@@ -44,7 +44,7 @@ const StyledApp = styled.div`
   border-radius: 1.8rem;
   max-width: 42.8rem;
   background-color: ${({ theme }) => theme.main.background};
-  max-height: 92.6rem;
+  max-height: ${({ theme }) => theme.main.maxHeight}rem;
 `;
 
 export default App;

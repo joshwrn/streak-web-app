@@ -70,7 +70,7 @@ const Focus = () => {
         delay: 0.1,
       }}
     >
-      {finish !== 'none' ? (
+      {finish !== 'none' && (
         <FocusFinish
           startTime={startTime}
           setTime={setTime}
@@ -78,7 +78,8 @@ const Focus = () => {
           finish={finish}
           time={time}
         />
-      ) : (
+      )}
+      {finish === 'none' && (
         <>
           <FocusDial
             time={time}
@@ -100,22 +101,22 @@ const Focus = () => {
 };
 
 const Container = styled(motion.div)`
+  position: relative;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-
   width: 100%;
   height: 100%;
-
-  padding: 0 0 8.7rem 0;
+  gap: 30px;
+  max-height: ${({ theme }) => theme.main.maxHeight / 2}rem;
 `;
 
 const ButtonContainer = styled.div`
+  position: relative;
   display: flex;
   justify-content: center;
   align-items: flex-end;
-  height: 100%;
   width: 100%;
 `;
 

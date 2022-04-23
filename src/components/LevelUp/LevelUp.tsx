@@ -175,7 +175,7 @@ const Container = styled(motion.div)`
   align-items: center;
   width: 100%;
   height: 100%;
-  max-height: 92.6rem;
+  max-height: ${({ theme }) => theme.main.maxHeight}rem;
   left: 0;
   top: 0;
   background-color: ${({ theme }) => theme.main.background};
@@ -187,11 +187,9 @@ const InnerContainer = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  /* justify-content: center; */
   justify-content: space-evenly;
   width: 100%;
   height: 100%;
-  /* gap: 8rem; */
 `;
 
 const Gradient = styled.div`

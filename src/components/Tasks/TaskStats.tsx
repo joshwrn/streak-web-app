@@ -49,7 +49,6 @@ const TaskStats = ({ activeTask }: TaskInfoTypes) => {
     >
       <InfoContainer>
         <Food src={donut} />
-        {/* <TaskStatsFood /> */}
         <TaskInfo>
           <TaskHeader>{currentTask.task}</TaskHeader>
           <StreakRow>

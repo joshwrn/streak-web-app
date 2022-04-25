@@ -7,8 +7,6 @@
 
 .env
 
-# temporary
-/backend
 
 # testing
 /coverage

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TaskProps } from '../../types/types';
+import { TaskProps } from '../../types/taskTypes';
 import Food from './TaskFood';
 
 import styled from 'styled-components';

@@ -13,11 +13,20 @@ import { AnimatePresence } from 'framer-motion';
 
 import { progressToNextLevel } from '../../utils/levelSystem';
 
+const DetailItem = ({ text, src }: { text: string; src: string }) => {
+  return (
+    <Detail variants={detailVariants}>
+      <DetailIcon src={src} alt="gift" />
+      <DetailText>{text}</DetailText>
+    </Detail>
+  );
+};
+
 const LevelUp = () => {
   const totalXP = useAppSelector((state) => state.totalXP.totalXP);
   const theme = useTheme();
-  const [currentLevel, setCurrentLevel] = useState(-1);
-  const [levelUp, setLevelUp] = useState(false);
+  const [currentLevel, setCurrentLevel] = useState<number>(-1);
+  const [levelUp, setLevelUp] = useState<boolean>(false);
 
   useEffect(() => {
     const totals = progressToNextLevel(totalXP);
@@ -50,18 +59,9 @@ const LevelUp = () => {
             </HeaderContainer>
             <Trophy variants={imageVariants} src={trophy} alt="trophy" />
             <Details variants={detailsVariants}>
-              <Detail variants={detailVariants}>
-                <DetailIcon src={gift} alt="gift" />
-                <DetailText>3 Rewards</DetailText>
-              </Detail>
-              <Detail variants={detailVariants}>
-                <DetailIcon src={star} alt="gift" />
-                <DetailText>{totalXP} Total XP</DetailText>
-              </Detail>
-              <Detail variants={detailVariants}>
-                <DetailIcon src={medal} alt="gift" />
-                <DetailText>Level {currentLevel}</DetailText>
-              </Detail>
+              <DetailItem src={gift} text={`3 Rewards`} />
+              <DetailItem src={star} text={`${totalXP} Total XP`} />
+              <DetailItem src={medal} text={`Level ${currentLevel}`} />
             </Details>
             <ButtonContainer>
               <PrimaryButton name="Continue" onClick={handleClose} />

@@ -15,7 +15,7 @@ import { IoCreateOutline } from 'react-icons/io5';
 import styled from 'styled-components';
 import { AnimatePresence, motion } from 'framer-motion';
 
-type FilterTypes = 'Active' | 'Completed';
+import { FilterProps, FilterTypes } from '../../types/filterTypes';
 
 const Center = () => {
   const page = useAppSelector((state) => state.page.page);
@@ -46,49 +46,55 @@ const Center = () => {
   );
 };
 
-const BottomSection = () => {
-  const [filter, setFilter] = useState<FilterTypes>('Active');
-
+const TasksHeader = ({ filter, setFilter }: FilterProps) => {
   const page = useAppSelector((state) => state.page.page);
   const dispatch = useAppDispatch();
 
   const handlePageChange = (selectedPage: pageTypes) => {
     dispatch(setPage(selectedPage));
   };
+  return (
+    <Header
+      variants={headerVariants}
+      initial="initial"
+      animate="animate"
+      exit="exit"
+      key="Tasks"
+      custom={page}
+    >
+      {(page === 'Stats' || page === 'Create') && (
+        <Arrow size={30} onClick={() => handlePageChange('Tasks')} />
+      )}
+      {page === 'Tasks' && (
+        <FilterContainer>
+          <FilterMenu filter={filter} setFilter={setFilter} />
+        </FilterContainer>
+      )}
+      <Center />
+      <HeaderRight>
+        {page === 'Tasks' && (
+          <CreateIcon
+            data-testid="createNewBtn"
+            as={IoCreateOutline}
+            size={28}
+            onClick={() => handlePageChange('Create')}
+          />
+        )}
+        {page === 'Stats' && <EditMenu />}
+      </HeaderRight>
+    </Header>
+  );
+};
+
+const BottomSection = () => {
+  const page = useAppSelector((state) => state.page.page);
+  const [filter, setFilter] = useState<FilterTypes>('Active');
 
   return (
     <Container>
       <AnimatePresence initial={false} exitBeforeEnter>
         {page !== 'Focus' && (
-          <Header
-            variants={headerVariants}
-            initial="initial"
-            animate="animate"
-            exit="exit"
-            key="Tasks"
-            custom={page}
-          >
-            {(page === 'Stats' || page === 'Create') && (
-              <Arrow size={30} onClick={() => handlePageChange('Tasks')} />
-            )}
-            {page === 'Tasks' && (
-              <FilterContainer>
-                <FilterMenu filter={filter} setFilter={setFilter} />
-              </FilterContainer>
-            )}
-            <Center />
-            <HeaderRight>
-              {page === 'Tasks' && (
-                <CreateIcon
-                  data-testid="createNewBtn"
-                  as={IoCreateOutline}
-                  size={28}
-                  onClick={() => handlePageChange('Create')}
-                />
-              )}
-              {page === 'Stats' && <EditMenu />}
-            </HeaderRight>
-          </Header>
+          <TasksHeader filter={filter} setFilter={setFilter} />
         )}
         {page === 'Focus' && (
           <Header

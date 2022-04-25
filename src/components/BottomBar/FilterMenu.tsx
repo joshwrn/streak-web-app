@@ -3,15 +3,9 @@ import { useState } from 'react';
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
-type FilterTypes = 'Active' | 'Completed';
+import { FilterProps, FilterTypes } from '../../types/filterTypes';
 
-const FilterMenu = ({
-  setFilter,
-  filter,
-}: {
-  setFilter: (arg: FilterTypes) => void;
-  filter: FilterTypes;
-}) => {
+const FilterMenu = ({ setFilter, filter }: FilterProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
 
   const handleFilter = (selectedFilter: FilterTypes) => {

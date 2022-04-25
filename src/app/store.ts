@@ -1,14 +1,16 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit';
 
 import xpReducer from '../slices/xpSlice';
-import taskSlice from '../slices/taskSlice';
-import pageSlice from '../slices/pageSlice';
+import taskReducer from '../slices/taskSlice';
+import pageReducer from '../slices/pageSlice';
+import authReducer from '../slices/authSlice';
 
 export const store = configureStore({
   reducer: {
     totalXP: xpReducer,
-    tasks: taskSlice,
-    page: pageSlice,
+    tasks: taskReducer,
+    page: pageReducer,
+    auth: authReducer,
   },
 });
 

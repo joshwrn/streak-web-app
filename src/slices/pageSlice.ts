@@ -1,7 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 const initialState = {
-  page: 'Tasks',
+  page: <pageTypes>'Tasks',
 };
 
 export type pageTypes = 'Tasks' | 'Focus' | 'Create' | 'Stats';

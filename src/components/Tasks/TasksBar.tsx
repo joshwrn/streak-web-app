@@ -4,7 +4,7 @@ import { useAppSelector } from '../../app/hooks';
 import Task from './TaskItem';
 import TaskStats from './TaskStats';
 
-import { TaskProps } from '../../types/types';
+import { TaskProps } from '../../types/taskTypes';
 
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -38,20 +38,29 @@ const TasksBar = ({ filter }: propTypes) => {
           <TaskItemsContainer>
             <AnimatePresence>
               {allTasks.map((item: TaskProps, index: number) => {
-                const taskItem = (
+                // make sure timing is always correct
+                const filtered = allTasks.filter((task) =>
+                  filter === 'Active' ? !task.completed : task.completed
+                );
+                const findIndex = filtered.findIndex(
+                  (task) => task.task === item.task
+                );
+
+                const TaskItem = (
                   <Task
                     key={index}
                     task={item.task}
                     completed={item.completed}
                     streak={item.streak}
                     setActiveTask={setActiveTask}
-                    index={index}
+                    index={findIndex}
                   />
                 );
+
                 if (filter === 'Active' && !item.completed) {
-                  return taskItem;
+                  return TaskItem;
                 } else if (filter === 'Completed' && item.completed) {
-                  return taskItem;
+                  return TaskItem;
                 }
               })}
             </AnimatePresence>

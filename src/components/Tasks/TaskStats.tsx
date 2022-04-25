@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { TaskProps } from '../../types/types';
+import { TaskProps } from '../../types/taskTypes';
 
 import styled from 'styled-components';
 import { motion } from 'framer-motion';

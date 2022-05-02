@@ -41,10 +41,9 @@ const FocusFinish = ({
         )}
       </InnerContainer>
       <ButtonContainer>
-        <PrimaryButton
-          name={finish === 'finish' ? 'Claim' : 'Accept'}
-          onClick={handleClaim}
-        />
+        <PrimaryButton onClick={handleClaim}>
+          {finish === 'finish' ? 'Claim' : 'Accept'}
+        </PrimaryButton>
       </ButtonContainer>
     </Container>
   );

@@ -64,7 +64,7 @@ const LevelUp = () => {
               <DetailItem src={medal} text={`Level ${currentLevel}`} />
             </Details>
             <ButtonContainer>
-              <PrimaryButton name="Continue" onClick={handleClose} />
+              <PrimaryButton onClick={handleClose}>Continue</PrimaryButton>
             </ButtonContainer>
           </InnerContainer>
           <Gradient />

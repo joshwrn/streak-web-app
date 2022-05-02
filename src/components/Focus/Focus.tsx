@@ -89,10 +89,9 @@ const Focus = () => {
             setStartTime={setStartTime}
           />
           <ButtonContainer>
-            <PrimaryButton
-              name={start ? 'Stop' : 'Start'}
-              onClick={handleStart}
-            />
+            <PrimaryButton onClick={handleStart}>
+              {start ? 'Stop' : 'Start'}
+            </PrimaryButton>
           </ButtonContainer>
         </>
       )}

@@ -13,14 +13,14 @@ const getStreaks = asyncHandler(async (req, res) => {
 // @route   GET /ap/goals
 // @access  Private
 const setStreaks = asyncHandler(async (req, res) => {
-  if (!req.body.text) {
+  if (!req.body.task) {
     res.status(400);
     throw new Error('Please add a text field');
   }
 
   const streak = await Streak.create({
     user: req.user.id,
-    text: req.body.text,
+    task: req.body.task,
   });
 
   res.status(200).json(streak);

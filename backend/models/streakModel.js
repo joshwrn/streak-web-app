@@ -7,7 +7,7 @@ const streakSchema = new mongoose.Schema(
       required: true,
       ref: 'User',
     },
-    text: {
+    task: {
       type: String,
       required: [true, 'Please add text'],
     },

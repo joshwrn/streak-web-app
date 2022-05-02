@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { TaskProps } from '../../types/taskTypes';
+import { StreakTypes } from '../../types/streakTypes';
 import Food from './TaskFood';
 
 import styled from 'styled-components';
@@ -7,10 +7,10 @@ import { motion } from 'framer-motion';
 
 import { incrementByAmount, decrementByAmount } from '../../slices/xpSlice';
 import { setPage } from '../../slices/pageSlice';
-import { markTaskAsCompleted } from '../../slices/taskSlice';
+import { markStreakAsCompleted } from '../../slices/streakSlice';
 import { useAppDispatch } from '../../app/hooks';
 
-interface TaskComponentProps extends TaskProps {
+interface TaskComponentProps extends StreakTypes {
   setActiveTask: (arg: string) => void;
   index: number;
 }
@@ -33,7 +33,7 @@ const Task = ({
   const handleComplete = (e: React.MouseEvent) => {
     e.stopPropagation();
     setIsCompleted(!isCompleted);
-    dispatch(markTaskAsCompleted(task));
+    dispatch(markStreakAsCompleted(task));
 
     // set total XP
     completed
@@ -86,7 +86,7 @@ const EndContainer = styled.div`
   justify-content: flex-end;
 `;
 
-const Number = styled.div<{ completed: TaskProps['completed'] }>`
+const Number = styled.div<{ completed: StreakTypes['completed'] }>`
   position: relative;
   z-index: 1;
 
@@ -111,7 +111,7 @@ const NumberText = styled.div`
   color: ${({ theme }) => theme.task.text};
 `;
 
-const TaskText = styled.div<{ completed: TaskProps['completed'] }>`
+const TaskText = styled.div<{ completed: StreakTypes['completed'] }>`
   position: relative;
   z-index: 1;
 

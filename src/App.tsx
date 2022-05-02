@@ -1,12 +1,12 @@
-import TopBar from './components/TopBar/TopBar';
-import BottomSection from './components/BottomBar/BottomSection';
-import LevelUp from './components/LevelUp/LevelUp';
-import Scene from './components/Pet/PetScene';
+import { HashRouter, Route, Routes } from 'react-router-dom';
 
 import GlobalStyles from './styles/GlobalStyles';
 import theme from './styles/theme';
 import { ThemeProvider } from 'styled-components';
 import styled from 'styled-components';
+
+import Login from './pages/Login';
+import Home from './pages/Home';
 
 function App() {
   return (
@@ -14,10 +14,12 @@ function App() {
       <GlobalStyles />
       <Container>
         <StyledApp>
-          <TopBar />
-          <Scene />
-          <BottomSection />
-          <LevelUp />
+          <HashRouter>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/login" element={<Login />} />
+            </Routes>
+          </HashRouter>
         </StyledApp>
       </Container>
     </ThemeProvider>

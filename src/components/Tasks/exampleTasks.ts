@@ -1,6 +1,6 @@
-import { TaskProps } from '../../types/taskTypes';
+import { StreakTypes } from '../../types/streakTypes';
 
-export const exampleTasks: TaskProps[] = [
+export const exampleTasks: StreakTypes[] = [
   {
     task: 'read a book',
     completed: false,

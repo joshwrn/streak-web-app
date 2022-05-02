@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-import { TaskProps } from '../../types/taskTypes';
+import { StreakTypes } from '../../types/streakTypes';
 
 import styled from 'styled-components';
 import { motion } from 'framer-motion';
@@ -19,7 +19,7 @@ interface TaskInfoTypes {
 }
 
 const TaskStats = ({ activeTask }: TaskInfoTypes) => {
-  const [currentTask, setCurrentTask] = useState<TaskProps>(placeholder);
+  const [currentTask, setCurrentTask] = useState<StreakTypes>(placeholder);
   const [calendar, setCalendar] = useState<string[]>([]);
   const allTasks = useAppSelector((state) => state.tasks.tasks);
 

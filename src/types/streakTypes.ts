@@ -1,4 +1,4 @@
-export interface TaskProps {
+export interface StreakTypes {
   task: string;
   completed: boolean;
   streak: number;

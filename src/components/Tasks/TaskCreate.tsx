@@ -1,21 +1,26 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
-import { addTask } from '../../slices/taskSlice';
+import { createStreak } from '../../slices/streakSlice';
 import { setPage } from '../../slices/pageSlice';
 import { useAppDispatch } from '../../app/hooks';
 
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
 
+import PrimaryButton from '../reusable/PrimaryButton';
+import PrimaryInput from '../reusable/PrimaryInput';
+
 const CreateNewBar = () => {
   const [input, setInput] = useState<string>('');
+  const [disabled, setDisabled] = useState<boolean>(true);
   const dispatch = useAppDispatch();
 
-  const handleCreateNew = () => {
-    const trimmedInput = input.trim();
-    if (trimmedInput.length < 3) return;
+  useEffect(() => {
+    setDisabled(input.length < 3);
+  }, [input]);
 
-    dispatch(addTask({ task: trimmedInput, completed: false, streak: 0 }));
+  const handleCreateNew = () => {
+    dispatch(createStreak({ task: input, completed: false, streak: 0 }));
     dispatch(setPage('Tasks'));
   };
 
@@ -28,15 +33,19 @@ const CreateNewBar = () => {
         exit={{ opacity: 0 }}
       >
         <Header>Create New Streak</Header>
-        <StyledInput
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder="Streak Name"
-          maxLength={15}
-          minLength={3}
-        />
-        <CreateTaskButton onClick={handleCreateNew}>Create</CreateTaskButton>
+        <Form onSubmit={handleCreateNew}>
+          <PrimaryInput
+            type="text"
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            placeholder="Streak Name"
+            maxLength={15}
+            minLength={3}
+          />
+          <PrimaryButton disabled={disabled} type="submit" buttonsize="large">
+            Create
+          </PrimaryButton>
+        </Form>
       </InnerContainer>
     </AnimatePresence>
   );
@@ -70,31 +79,13 @@ const InnerContainer = styled(motion.div)`
   scrollbar-width: none;
 `;
 
-const StyledInput = styled.input`
+const Form = styled.form`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 2rem;
   width: 100%;
-  height: 5rem;
-  color: ${({ theme }) => theme.main.primaryText};
-  font-size: 1.8rem;
-  padding-left: 2rem;
-  border-radius: 0.8rem;
-  background-color: ${({ theme }) => theme.task.background};
-  border: 0.1rem solid ${({ theme }) => theme.main.border};
-  ::placeholder {
-    color: #f4eeff68;
-  }
-`;
-
-const CreateTaskButton = styled.button`
-  align-self: flex-start;
-  width: 100%;
-  height: 5rem;
-  cursor: pointer;
-  background-color: ${({ theme }) => theme.main.button};
-  border: 0.1rem solid ${({ theme }) => theme.main.border};
-  font-size: 2rem;
-  border-radius: 0.8rem;
-  color: ${({ theme }) => theme.main.primaryText};
-  font-family: ${({ theme }) => theme.main.boldFont};
 `;
 
 export default CreateNewBar;

@@ -7,9 +7,9 @@ const User = require('../models/userModel');
 // @route   POST /api/users/
 // @access  Public
 const registerUser = asyncHandler(async (req, res) => {
-  const { username, email, password } = req.body;
+  const { username, email, password, name } = req.body;
 
-  if (!username || !email || !password) {
+  if (!username || !email || !password || !name) {
     res.status(400);
     throw new Error('Please enter all fields');
   }
@@ -28,13 +28,15 @@ const registerUser = asyncHandler(async (req, res) => {
   const user = await User.create({
     username,
     email,
+    name,
     password: hashedPassword,
   });
 
   if (user) {
     res.status(201).json({
       _id: user.id,
-      name: user.username,
+      username: user.username,
+      name: user.name,
       email: user.email,
       token: generateToken(user.id),
     });
@@ -48,15 +50,15 @@ const registerUser = asyncHandler(async (req, res) => {
 // @route   POST /api/users/login
 // @access  Public
 const loginUser = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { username, password } = req.body;
 
-  if (!email || !password) {
+  if (!username || !password) {
     res.status(400);
     throw new Error('Please enter all fields');
   }
 
   // check for user email
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ username });
 
   if (user && (await bcrypt.compare(password, user.password))) {
     res.status(200).json({
@@ -78,15 +80,8 @@ const loginUser = asyncHandler(async (req, res) => {
 // @access  Private
 const getMe = asyncHandler(async (req, res) => {
   // get user from the auth middleware
-  const { _id, username, email } = await User.findById(req.user.id);
 
-  res.status(200).json({
-    user: {
-      id: _id,
-      username,
-      email,
-    },
-  });
+  res.status(200).json(req.user);
 });
 
 // Generate Token

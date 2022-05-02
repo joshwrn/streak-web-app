@@ -1,10 +1,12 @@
-import { useState } from 'react';
-import { useAppSelector } from '../../app/hooks';
+import { useState, useEffect } from 'react';
+import { useAppSelector, useAppDispatch } from '../../app/hooks';
+import { getStreaks, reset } from '../../slices/streakSlice';
+import { useNavigate } from 'react-router-dom';
 
 import Task from './TaskItem';
 import TaskStats from './TaskStats';
 
-import { TaskProps } from '../../types/taskTypes';
+import { StreakTypes } from '../../types/streakTypes';
 
 import styled from 'styled-components';
 import { motion, AnimatePresence } from 'framer-motion';
@@ -17,8 +19,30 @@ type propTypes = {
 
 const TasksBar = ({ filter }: propTypes) => {
   const page = useAppSelector((state) => state.page.page);
-  const allTasks = useAppSelector((state) => state.tasks.tasks);
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+
+  const { user } = useAppSelector((state) => state.auth);
+  const { tasks, isLoading, isError, message } = useAppSelector(
+    (state) => state.tasks
+  );
   const [activeTask, setActiveTask] = useState<string>('');
+
+  useEffect(() => {
+    if (isError) {
+      console.log('get error', message);
+    }
+
+    if (!user) {
+      navigate('/login');
+    }
+
+    dispatch(getStreaks('idk'));
+
+    // return () => {
+    //   dispatch(reset());
+    // };
+  }, [isError, message, dispatch]);
 
   return (
     <InnerContainer
@@ -37,9 +61,9 @@ const TasksBar = ({ filter }: propTypes) => {
         ) : (
           <TaskItemsContainer>
             <AnimatePresence>
-              {allTasks.map((item: TaskProps, index: number) => {
+              {tasks.map((item: StreakTypes, index: number) => {
                 // make sure timing is always correct
-                const filtered = allTasks.filter((task) =>
+                const filtered = tasks.filter((task) =>
                   filter === 'Active' ? !task.completed : task.completed
                 );
                 const findIndex = filtered.findIndex(
@@ -65,11 +89,11 @@ const TasksBar = ({ filter }: propTypes) => {
               })}
             </AnimatePresence>
             {filter === 'Active' &&
-              allTasks.filter((item: TaskProps) => !item.completed).length ===
+              tasks.filter((item: StreakTypes) => !item.completed).length ===
                 0 && <NoTask>No Active Streaks 😃</NoTask>}
 
             {filter === 'Completed' &&
-              allTasks.filter((item: TaskProps) => item.completed).length ===
+              tasks.filter((item: StreakTypes) => item.completed).length ===
                 0 && <NoTask>No Completed Streaks 😬</NoTask>}
           </TaskItemsContainer>
         )}

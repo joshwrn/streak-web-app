@@ -1,5 +1,6 @@
 import { createSlice, createAsyncThunk, PayloadAction } from '@reduxjs/toolkit';
 import { RootState } from '../app/store';
+
 import { StreakTypes } from '../types/streakTypes';
 import streakService from '../services/streakService';
 

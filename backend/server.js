@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const dotenv = require('dotenv').config();
 const colors = require('colors');
@@ -16,4 +17,15 @@ app.use(express.urlencoded({ extended: false }));
 app.use('/api/streaks', require('./routes/streakRoutes'));
 app.use('/api/users', require('./routes/userRoutes'));
 
-app.listen(port, () => console.log('server started'.rainbow.bold.underline));
+// Serve frontend
+if (process.env.NODE_ENV === 'production') {
+  app.use(express.static(path.join(__dirname, '../build')));
+
+  app.get('*', (req, res) =>
+    res.sendFile(path.resolve(__dirname, '../', 'build', 'index.html'))
+  );
+} else {
+  app.get('/', (req, res) => res.send('Please set to production'));
+}
+
+app.listen(port, () => console.log(`server started on ${port}`.blue));

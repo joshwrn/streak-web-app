@@ -37,11 +37,11 @@ const TasksBar = ({ filter }: propTypes) => {
       navigate('/login');
     }
 
-    dispatch(getStreaks('idk'));
+    dispatch(getStreaks(''));
 
-    // return () => {
-    //   dispatch(reset());
-    // };
+    return () => {
+      dispatch(reset());
+    };
   }, [isError, message, dispatch]);
 
   return (
